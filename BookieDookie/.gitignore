@@ -1,0 +1,6 @@
+obj/
+debug/
+release/
+.idea/
+bin/
+appsettings.Development.json

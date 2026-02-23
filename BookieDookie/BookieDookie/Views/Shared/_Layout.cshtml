@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - BookieDookie</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/BookieDookie.styles.css" asp-append-version="true"/>
+    
+    <!--Font Awesome Local Integration-->
+    <!--adding all.min.css-->
+    <link rel="stylesheet" href="~/lib/font-awesome/all.min.css"/>
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /*no scrolling*/
+        }
+        
+    </style>
+    
+</head>
+
+<body>
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-book-open"></i>
+            <span>BookieDookie</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a asp-controller="Home" asp-action="Index" class="nav-item active">
+                <i class="fas fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a asp-controller="Books" asp-action="Index" class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>My Bookshelf</span>
+            </a>
+
+            <a asp-controller="Stats" asp-action="Index" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Reading Stats</span>
+            </a>
+
+            <a asp-controller="Books" asp-action="Create" class="nav-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add a Book</span>
+            </a>
+
+            <a asp-controller="Profile" asp-action="Index" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+</div>
+
+<footer class="footer text-muted fa-align-left">
+        &copy; 2026 - BookieDookie | Dipaak
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<!--adding all.min.js-->
+<script src="~/lib/font-awesome/all.min.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
