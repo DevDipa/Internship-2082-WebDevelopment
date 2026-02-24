@@ -1,3 +1,7 @@
+using BookieDookie;
+using BookieDookie.Services.Interface;
+using BookieDookie.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +11,17 @@ builder.Services.AddDistributedMemoryCache();
 
 //Add session.
 builder.Services.AddSession();
+
+//SERVICES part - Dependency Injection and all
+builder.Services.AddScoped<IUserService, UserService>();
+
+//ARU 2 WOTA
+//builder.Services.AddTransient<IUserService, UserService>();
+//builder.Services.AddSingleton<IUserService, UserService>();
+
+
+var services = builder.Services;
+services.Configure();
 
 var app = builder.Build();
 

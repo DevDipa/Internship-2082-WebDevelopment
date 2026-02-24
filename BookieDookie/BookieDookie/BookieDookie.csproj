@@ -11,4 +11,9 @@
       <_ContentIncludedByDefault Remove="Views\Books\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="Npgsql" Version="10.0.0" />
+    </ItemGroup>
+
 </Project>
