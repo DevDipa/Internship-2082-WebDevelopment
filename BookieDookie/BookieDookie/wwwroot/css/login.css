@@ -1,0 +1,63 @@
+﻿body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('/images/Background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    backdrop-filter: blur(4px);
+}
+
+.login-card {
+    background: #f4eee9;
+    padding: 40px;
+    width: 350px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Allura', cursive;
+    font-size: 20px;
+}
+
+.login-card h1 {
+    margin-bottom: 20px;
+    color: #5b4636;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.main-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: #d8a48f;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.main-btn:hover {
+    background: #c98f7a;
+}
+
+.link {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #6d5d50;
+    cursor: pointer;
+}

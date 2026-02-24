@@ -6,4 +6,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Books\AddBook.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Books\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
