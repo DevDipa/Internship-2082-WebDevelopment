@@ -180,3 +180,51 @@ html {
   align-items: center;
   gap: 50px;   /* This controls spacing between header and stats */
 }
+
+
+/* USER REPORT SECTION */
+
+.user-report-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  width: 100%;
+}
+
+.user-report-card {
+  background: #f3e9dc;
+  padding: 25px 35px;
+  border-radius: 25px;
+  min-width: 320px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.user-report-card:hover {
+  transform: translateY(-4px);
+}
+
+.user-report-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Allura', cursive;
+  font-size: 26px;
+  color: #4b3b3b;
+}
+
+.user-report-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-report-card li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e0d5c7;
+  font-size: 16px;
+  color: #6b4f4f;
+}
+
+.user-report-card li:last-child {
+  border-bottom: none;
+}

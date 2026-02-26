@@ -12,12 +12,8 @@ builder.Services.AddDistributedMemoryCache();
 //Add session.
 builder.Services.AddSession();
 
-//SERVICES part - Dependency Injection and all
-builder.Services.AddScoped<IUserService, UserService>();
-
-//ARU 2 WOTA
-//builder.Services.AddTransient<IUserService, UserService>();
-//builder.Services.AddSingleton<IUserService, UserService>();
+//DEPENDENCY INJECTION REGISTRATION
+builder.Services.AddSingleton<IUserService, UserService>();
 
 
 var services = builder.Services;

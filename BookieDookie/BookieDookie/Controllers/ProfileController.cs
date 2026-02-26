@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
+using BookieDookie.Services.Interface;
 
 namespace BookieDookie.Controllers
 {
     public class ProfileController : Controller
     {
-        private static List<User> _users = LoginController._users;
+        private readonly IUserService _userService;
+
+        public ProfileController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         public IActionResult Edit()
         {
@@ -16,7 +22,7 @@ namespace BookieDookie.Controllers
 
             var userId = Guid.Parse(userIdString);
 
-            var user = _users.FirstOrDefault(u => u.Id == userId);
+            var user = _userService.GetUserById(userId);
 
             return View(user);
         }
@@ -24,16 +30,17 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult Edit(User updatedUser)
         {
-            var user = _users.FirstOrDefault(u => u.Id == updatedUser.Id);
-
-            if (user != null)
-            {
-                user.Email = updatedUser.Email;
-                user.Username = updatedUser.Username;
-                user.Password = updatedUser.Password;
-            }
+            _userService.UpdateUser(updatedUser);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult ToggleStatus(Guid id)
+        {
+            _userService.ToggleStatus(id);
+
+            return RedirectToAction("Edit");
         }
     }
 }

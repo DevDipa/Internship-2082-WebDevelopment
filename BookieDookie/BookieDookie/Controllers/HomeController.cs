@@ -1,28 +1,26 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
+using BookieDookie.Services.Interface;using BookieDookie.Services.Interface;
 
 namespace BookieDookie.Controllers
 {
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService userService)
         {
-            _logger = logger;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            ViewBag.ActiveUsers = _userService.GetActiveUsers();
+            ViewBag.InactiveUsers = _userService.GetInactiveUsers();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 

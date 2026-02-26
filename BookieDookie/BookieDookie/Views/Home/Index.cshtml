@@ -42,5 +42,32 @@
         </div>
 
     </div>
+    
+    <div class="user-report-container">
+
+        <div class="user-report-card">
+            <h3>Active Users</h3>
+            <ul>
+                @foreach (var user in ViewBag.ActiveUsers)
+                {
+                    <li>@user.Username (@user.Email)</li>
+                }
+            </ul>
+        </div>
+
+        <div class="user-report-card">
+            <h3>Inactive Users</h3>
+            <ul>
+                @foreach (var user in ViewBag.InactiveUsers)
+                {
+                    <li>@user.Username (@user.Email)</li>
+                }
+            </ul>
+        </div>
+
+    </div>
+
+
+    
 
 </div>

@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
+using BookieDookie.Services.Interface;
 
 namespace BookieDookie.Controllers
 {
     public class LoginController : Controller
     {
-        //IN-MEMORY STORAGE
-        public static List<User> _users = new List<User>();
-        
-        // GET: Login
+        private readonly IUserService _userService;
+
+        public LoginController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -17,10 +21,9 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = _users.FirstOrDefault(u => 
-                u.Username == username && u.Password == password);
+            var user = _userService.GetUserByUsername(username);
 
-            if (user != null)
+            if (user != null && user.Password == password)
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 return RedirectToAction("Index", "Home");
@@ -39,7 +42,7 @@ namespace BookieDookie.Controllers
                 return View("Index");
             }
 
-            if (_users.Any(u => u.Username == username))
+            if (_userService.GetUserByUsername(username) != null)
             {
                 ViewBag.Error = "Username already exists!";
                 return View("Index");
@@ -52,7 +55,7 @@ namespace BookieDookie.Controllers
                 Password = password
             };
 
-            _users.Add(newUser);
+            _userService.AddUser(newUser);
 
             return RedirectToAction("Index");
         }

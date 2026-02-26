@@ -1,11 +1,17 @@
 ﻿@model BookieDookie.Models.User
 
-
 <link rel="stylesheet" href="~/css/profile.css" />
 
 <div class="profile-container">
     <div class="profile-card">
         <h2>Edit Profile</h2>
+
+        <p class="status-text">
+            Status:
+            <span class="status-badge @(Model.Status == BookieDookie.Models.UserStatus.Active ? "active-status" : "inactive-status")">
+                @Model.Status
+            </span>
+        </p>
 
         <form method="post">
             <input type="hidden" asp-for="Id" />
@@ -15,6 +21,17 @@
             <input asp-for="Password" type="password" placeholder="Password" required />
 
             <button type="submit" class="main-btn">Save Changes</button>
+        </form>
+
+        <form asp-action="ToggleStatus" method="post" class="toggle-form">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button type="submit"
+                    class="toggle-btn @(Model.Status == BookieDookie.Models.UserStatus.Active ? "deactivate-btn" : "activate-btn")">
+                @(Model.Status == BookieDookie.Models.UserStatus.Active 
+                    ? "Deactivate Account" 
+                    : "Activate Account")
+            </button>
         </form>
     </div>
 </div>

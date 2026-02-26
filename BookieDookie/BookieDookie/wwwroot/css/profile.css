@@ -48,3 +48,91 @@
     background: #c98f7a;
     transform: scale(1.02);
 }
+
+/* STATUS TEXT */
+
+.status-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #6b4f4f;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.active-status {
+    background-color: #d4edda;
+    color: #2f6b3f;
+}
+
+.inactive-status {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* SPACING FIX */
+.toggle-form {
+    margin-top: 25px;
+}
+
+/* TOGGLE BUTTON BASE */
+/* TOGGLE BUTTON BASE */
+.profile-card .toggle-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+/* DEACTIVATE (soft red) */
+.profile-card .deactivate-btn {
+    background-color: #c97a7a !important;
+    color: white !important;
+}
+
+.profile-card .deactivate-btn:hover {
+    background-color: #b86666 !important;
+    transform: scale(1.02);
+}
+
+/* ACTIVATE (soft green) */
+.profile-card .activate-btn {
+    background-color: #8fbf9f !important;
+    color: white !important;
+}
+
+.profile-card .activate-btn:hover {
+    background-color: #7aac8d !important;
+    transform: scale(1.02);
+}
+
+/* DEACTIVATE (soft red) */
+.deactivate-btn {
+    background: #c97a7a;
+    color: white;
+}
+
+.deactivate-btn:hover {
+    background: #b86666;
+    transform: scale(1.02);
+}
+
+/* ACTIVATE (soft green) */
+.activate-btn {
+    background: #8fbf9f;
+    color: white;
+}
+
+.activate-btn:hover {
+    background: #7aac8d;
+    transform: scale(1.02);
+}
