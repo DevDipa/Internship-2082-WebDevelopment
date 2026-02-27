@@ -8,6 +8,7 @@ namespace BookieDookie.Services.Interface
         User GetUserById(Guid id);
         User GetUserByUsername(string username);
         void AddUser(User user);
+        void DeleteUser(Guid id);
         void UpdateUser(User updatedUser);
         void ToggleStatus(Guid id);
         List<User> GetActiveUsers();

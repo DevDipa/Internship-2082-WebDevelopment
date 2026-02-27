@@ -33,5 +33,12 @@
                     : "Activate Account")
             </button>
         </form>
+        
+        <form asp-action="DeleteAccount" method="post" class="delete-form">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="delete-btn">
+                Delete Account
+            </button>
+        </form>
     </div>
 </div>

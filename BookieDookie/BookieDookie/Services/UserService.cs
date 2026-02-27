@@ -1,64 +1,85 @@
 ﻿using BookieDookie.Models;
 using BookieDookie.Services.Interface;
+using BookieDookie.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookieDookie.Services
 {
     public class UserService : IUserService
     {
-        private static List<User> _users = new List<User>();
+        private readonly ApplicationDbContext _context;
+
+        public UserService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public List<User> GetAllUsers()
         {
-            return _users;
+            return _context.Users.ToList();
         }
 
         public User GetUserById(Guid id)
         {
-            return _users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public User GetUserByUsername(string username)
         {
-            return _users.FirstOrDefault(u => u.Username == username);
+            return _context.Users.FirstOrDefault(u => u.Username == username);
         }
 
         public void AddUser(User user)
         {
-            _users.Add(user);
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
         public void UpdateUser(User updatedUser)
         {
-            var user = GetUserById(updatedUser.Id);
+            _context.Users.Update(updatedUser);
+            _context.SaveChanges();
+        }
+        
+        public void DeleteUser(Guid id)
+        {
+            var user = _context.Users
+                .Include(u => u.Books)
+                .FirstOrDefault(u => u.Id == id);
 
             if (user != null)
             {
-                user.Email = updatedUser.Email;
-                user.Username = updatedUser.Username;
-                user.Password = updatedUser.Password;
+                _context.Books.RemoveRange(user.Books); // delete related books
+                _context.Users.Remove(user);
+                _context.SaveChanges();
             }
         }
 
         public void ToggleStatus(Guid id)
         {
             var user = GetUserById(id);
-
             if (user != null)
             {
                 user.Status = user.Status == UserStatus.Active
                     ? UserStatus.Inactive
                     : UserStatus.Active;
+
+                _context.SaveChanges();
             }
         }
 
         public List<User> GetActiveUsers()
         {
-            return _users.Where(u => u.Status == UserStatus.Active).ToList();
+            return _context.Users
+                .Where(u => u.Status == UserStatus.Active)
+                .ToList();
         }
 
         public List<User> GetInactiveUsers()
         {
-            return _users.Where(u => u.Status == UserStatus.Inactive).ToList();
+            return _context.Users
+                .Where(u => u.Status == UserStatus.Inactive)
+                .ToList();
         }
     }
 }

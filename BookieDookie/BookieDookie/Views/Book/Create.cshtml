@@ -1,0 +1,18 @@
+﻿@model BookieDookie.Models.Book
+
+<link rel="stylesheet" href="~/css/book.css"/>
+
+<div class="book-container">
+    <h2>Add a New Book</h2>
+
+    <form asp-action="Create" method="post">
+        <input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />
+        <input asp-for="Title" placeholder="Title"/>
+        <input asp-for="Author" placeholder="Author"/>
+        <input asp-for="Genre" placeholder="Genre"/>
+        <textarea asp-for="Description" placeholder="Description"></textarea>
+        <input asp-for="ImageUrl" placeholder="Image URL"/>
+
+        <button type="submit">Add Book</button>
+    </form>
+</div>

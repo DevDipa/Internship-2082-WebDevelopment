@@ -81,7 +81,6 @@
 }
 
 /* TOGGLE BUTTON BASE */
-/* TOGGLE BUTTON BASE */
 .profile-card .toggle-btn {
     width: 100%;
     padding: 12px;
@@ -134,5 +133,43 @@
 
 .activate-btn:hover {
     background: #7aac8d;
+    transform: scale(1.02);
+}
+
+
+/*DELETE BUTTON*/
+.delete-form {
+    margin-top: 25px;
+}
+
+/* DELETE BUTTON BASE */
+.profile-card .delete-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.profile-card .delete-btn {
+    background-color: #c97a7a !important;
+    color: white !important;
+}
+
+.profile-card .delete-btn:hover {
+    background-color: #b86666 !important;
+    transform: scale(1.02);
+}
+
+.delete-btn {
+    background: #c97a7a;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #b86666;
     transform: scale(1.02);
 }

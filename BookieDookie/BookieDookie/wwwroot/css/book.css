@@ -1,0 +1,26 @@
+﻿.book-container {
+    background: #f4efe9;
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.book-container input,
+.book-container textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+.book-container button {
+    background: #c68b7b;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    width: 100%;
+}

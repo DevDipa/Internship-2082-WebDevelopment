@@ -1,0 +1,19 @@
+﻿@model List<BookieDookie.Models.Book>
+
+<link rel="stylesheet" href="~/css/book.css"/>   
+
+<div class="gallery">
+    @foreach(var book in Model)
+    {
+        <div class="book-card">
+            <img src="@book.ImageUrl" />
+            <h3>@book.Title</h3>
+            <p><strong>Author:</strong> @book.Author</p>
+            <p><strong>Genre:</strong> @book.Genre</p>
+            <p>@book.Description</p>
+
+            <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+            <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+        </div>
+    }
+</div>

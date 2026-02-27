@@ -34,6 +34,14 @@ namespace BookieDookie.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        
+        [HttpPost]
+        public IActionResult DeleteAccount(Guid id)
+        {
+            _userService.DeleteUser(id);
+
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public IActionResult ToggleStatus(Guid id)
