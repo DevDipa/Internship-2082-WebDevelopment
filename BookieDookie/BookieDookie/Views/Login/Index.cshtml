@@ -20,7 +20,7 @@
         <form id="loginForm" method="post" asp-controller="Login" asp-action="Login">
             <input type="text" name="username" placeholder="Username" required />
             <input type="password" name="password" placeholder="Password" required />
-            <button type="submit" class="main-btn">Login</button>
+            <button type="submit" class="main-btn">Welcome Back:)</button>
 
             <p class="link">Need a hand with your password?</p>
             <p class="link" onclick="showSignup()">New here? Begin your journey...</p>
@@ -33,9 +33,9 @@
             <input type="password" name="password" placeholder="Password" required />
             <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
 
-            <button type="submit" class="main-btn">Sign Up</button>
+            <button type="submit" class="main-btn">Start Your Own Story</button>
 
-            <p class="link" onclick="showLogin()">Already have an account? Login</p>
+            <p class="link" onclick="showLogin()">Already have a space? Please continue...</p>
         </form>
 
         @if (ViewBag.Error != null)

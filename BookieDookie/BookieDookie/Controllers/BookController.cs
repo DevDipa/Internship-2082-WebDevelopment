@@ -16,10 +16,15 @@ namespace BookieDookie.Controllers
             _bookService = bookService;
             _context = context;
         }
-
         public IActionResult Index()
         {
-            var books = _bookService.GetAllBooks();
+            var user = _context.Users.FirstOrDefault();
+
+            if (user == null)
+                return BadRequest("No user found.");
+
+            var books = _bookService.GetBooksByUser(user.Id);
+
             return View(books);
         }
 

@@ -1,19 +1,33 @@
 ﻿@model List<BookieDookie.Models.Book>
 
-<link rel="stylesheet" href="~/css/book.css"/>   
+<div class="bookshelf-container">
+    <h2>My Bookshelf</h2>
 
-<div class="gallery">
-    @foreach(var book in Model)
-    {
-        <div class="book-card">
-            <img src="@book.ImageUrl" />
-            <h3>@book.Title</h3>
-            <p><strong>Author:</strong> @book.Author</p>
-            <p><strong>Genre:</strong> @book.Genre</p>
-            <p>@book.Description</p>
+    <div class="books-grid">
+        @if (!Model.Any())
+        {
+            <p>No books yet. Start building your collection 📚</p>
+        }
+        else
+        {
+            foreach (var book in Model)
+            {
+                <div class="book-card">
+                    <img src="@book.ImageUrl" alt="@book.Title" />
 
-            <a asp-action="Edit" asp-route-id="@book.Id">Edit</a>
-            <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-        </div>
-    }
+                    <div class="book-info">
+                        <h3>@book.Title</h3>
+                        <p><strong>Author:</strong> @book.Author</p>
+                        <p><strong>Genre:</strong> @book.Genre</p>
+                        <p>@book.Description</p>
+                    </div>
+
+                    <div class="book-actions">
+                        <a asp-action="Edit" asp-route-id="@book.Id" class="edit-btn">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@book.Id" class="delete-btn">Delete</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>

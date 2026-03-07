@@ -22,6 +22,13 @@ namespace BookieDookie.Services
         {
             return _context.Books.FirstOrDefault(b => b.Id == id);
         }
+        
+        public List<Book> GetBooksByUser(Guid userId)
+        {
+            return _context.Books
+                .Where(b => b.UserId == userId)
+                .ToList();
+        }
 
         public void AddBook(Book book, Guid userId)
         {
