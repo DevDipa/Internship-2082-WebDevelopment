@@ -1,0 +1,22 @@
+﻿@model BookieDookie.Models.Book
+
+<link rel="stylesheet" href="~/css/book.css"/>
+
+<div class="book-container">
+    <h2>Edit Book</h2>
+    
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="ImageUrl" />
+
+        <input asp-for="Title" placeholder="Title" />
+        <input asp-for="Author" placeholder="Author" />
+        <input asp-for="Genre" placeholder="Genre" />
+        <textarea asp-for="Description" placeholder="Summary"></textarea>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+</div>

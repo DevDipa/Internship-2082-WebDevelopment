@@ -34,12 +34,26 @@ namespace BookieDookie.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Book book)
+        public async Task<IActionResult> Create(Book book, IFormFile ImageFile)
         {
             var user = _context.Users.FirstOrDefault();
 
             if (user == null)
                 return BadRequest("No user found.");
+
+            if (ImageFile != null)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(stream);
+                }
+
+                book.ImageUrl = "/uploads/" + fileName;
+            }
 
             _bookService.AddBook(book, user.Id);
 
@@ -59,6 +73,7 @@ namespace BookieDookie.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(Guid id)
         {
             _bookService.DeleteBook(id);

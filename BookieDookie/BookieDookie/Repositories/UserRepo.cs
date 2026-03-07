@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BookieDookie.Models;
 
-namespace BookieDookie.Repository;
+namespace BookieDookie.Repositories;
 
 public class UserRepo(DbContext context) : IUserRepo
 {

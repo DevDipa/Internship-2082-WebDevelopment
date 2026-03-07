@@ -5,13 +5,13 @@
 <div class="book-container">
     <h2>Add a New Book</h2>
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="UserId" value="@ViewBag.UserId" />
         <input asp-for="Title" placeholder="Title"/>
         <input asp-for="Author" placeholder="Author"/>
         <input asp-for="Genre" placeholder="Genre"/>
         <textarea asp-for="Description" placeholder="Summary"></textarea>
-        <input asp-for="ImageUrl" placeholder="Image URL"/>
+        <input type="file" name="ImageFile" />
 
         <button type="submit">Add Book</button>
     </form>
