@@ -1,0 +1,80 @@
+﻿@model BookieDookie.Models.ReadingStats
+
+<link rel="stylesheet" href="~/css/readingstats.css"/>
+
+<div class="stats-container">
+
+    <div class="top-row">
+
+        <!-- Pages Read -->
+        <div class="stats-card">
+            <h3>Pages Read Today</h3>
+
+            <form asp-action="UpdatePages" method="post">
+                <input type="number"
+                       name="pages"
+                       value="@Model.PagesReadToday"
+                       min="0"/>
+
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+
+        <!-- Bookmark -->
+        <div class="stats-card">
+            <h3>Latest Bookmark</h3>
+
+            <form asp-action="UpdateBookmark" method="post">
+
+                <input type="text"
+                       name="book"
+                       value="@Model.BookmarkBook"
+                       placeholder="Book name"/>
+
+                <input type="number"
+                       name="page"
+                       value="@Model.BookmarkPage"
+                       placeholder="Page"/>
+
+                <button type="submit">Save</button>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <!-- Feelings -->
+    <div class="stats-card feelings-card">
+
+        <h3>How did reading feel today?</h3>
+
+        <form asp-action="UpdateFeeling" method="post" class="mood-buttons">
+
+            <button name="feeling" value="Educated">🧠</button>
+            <button name="feeling" value="Motivated">💪</button>
+            <button name="feeling" value="Confused">🫤</button>
+            <button name="feeling" value="Emotional">🥺</button>
+            <button name="feeling" value="Peaceful">😇</button>
+
+        </form>
+
+        <p class="current-mood">
+            Current mood: @Model.Feeling
+        </p>
+
+    </div>
+
+
+    <!-- Chart 
+    <div class="stats-card chart-card">
+
+        <h3>Reading Consistency</h3>
+
+        <canvas id="readingChart"></canvas>
+
+    </div>
+    -->
+
+</div>

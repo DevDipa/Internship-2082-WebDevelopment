@@ -1,0 +1,102 @@
+﻿.stats-container{
+    max-width:900px;
+    margin:40px auto;
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+    font-family:'Allura', cursive;
+}
+
+
+/* TOP ROW */
+
+.top-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+
+/* CARDS */
+
+.stats-card{
+    background:#f4eee9;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stats-card h3{
+    margin-bottom:15px;
+    color: #5b4636;
+}
+
+
+/* INPUTS */
+
+.stats-card input{
+    width:100%;
+    padding:8px;
+    margin-bottom:15px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+
+/* BUTTONS */
+
+.stats-card button{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: #d8a48f;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.stats-card button:hover{
+    background: #c98f7a;
+    transform: scale(1.02);
+}
+
+
+/* MOOD BUTTONS */
+
+.mood-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.mood-buttons button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:50px;
+    transition:transform 0.15s;
+}
+
+.mood-buttons button:hover{
+    background: none;
+    transform:scale(1.3);
+}
+
+.current-mood{
+    margin-top:50px;
+}
+
+
+/* CHART */
+
+.chart-card{
+    height:350px;
+}
+
+#readingChart{
+    width:100%;
+    height:100%;
+}
