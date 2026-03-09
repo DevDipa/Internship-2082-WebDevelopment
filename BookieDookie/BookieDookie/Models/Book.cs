@@ -22,6 +22,8 @@ namespace BookieDookie.Models
         public string ImageUrl { get; set; }
 
         public Guid UserId { get; set; }
+        
+        //navigation property that lets EF Core automatically load the related user
         public User User { get; set; }
     }
 }
