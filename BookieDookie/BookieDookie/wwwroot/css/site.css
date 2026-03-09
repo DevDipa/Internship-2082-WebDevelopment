@@ -42,6 +42,7 @@ html {
 /*DASHBOARD*/
 /* Dashboard Layout */
 .dashboard-container {
+  font-family: 'Allura', cursive;
   display: flex;
   min-height: 100vh;
 }
@@ -113,14 +114,14 @@ html {
 }
 
 /*HOME VIEW*/
-/*HOME HEADER*/
+/*HOME HEADER
 
-.dashboard-header {
+.dashboard-header{
   display: flex;
   justify-content: center;
 }
 
-.dashboard-header h1 {
+.dashboard-header h2 {
   background: #f3e9dc;
   padding: 18px 50px;
   border-radius: 40px;
@@ -130,10 +131,39 @@ html {
   color: #4b3b3b;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 }
+*/
+
+.home-greeting p{
+
+  background-image: url('/images/Greeting-BG.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  
+  font-size:30px;
+  color: #7a6a5f;
+  font-family: 'Allura', cursive;
+  margin-bottom:6px;
+  padding: 25px 35px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 240px;
+}
+
+/*.greeting-line{
+  font-size:16px;
+  color:#555;
+  margin-bottom:30px;
+}*/
+
 
 /*STATS SECTION*/
 
 .stats-container {
+  font-family: 'Allura', cursive;
   display: flex;
   justify-content: center;
   gap: 40px;
@@ -179,6 +209,38 @@ html {
   flex-direction: column;
   align-items: center;
   gap: 50px;   /* This controls spacing between header and stats */
+}
+
+
+
+/* Bookmark card */
+
+.bookmark-card{
+  font-family: 'Allura', cursive;
+  background:#f3e9dc;
+  padding:25px;
+  border-radius:14px;
+  max-width:420px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.bookmark-card h3{
+  margin: 0;
+  font-size: 20px;
+  color: #7a6a5f;
+}
+
+.bookmark-book{
+  margin: 5px 0 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #4b3b3b;
+}
+
+.bookmark-page{
+  font-size:16px;
+  color:#666;
 }
 
 
