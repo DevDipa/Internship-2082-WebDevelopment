@@ -3,6 +3,7 @@ using BookieDookie.Services.Interface;
 using BookieDookie.Services;
 using Microsoft.EntityFrameworkCore;
 using BookieDookie.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,14 @@ builder.Services.AddSession();
 
 //DEPENDENCY INJECTION REGISTRATION
 builder.Services.AddScoped<IUserService, UserService>();
+
+//AUTHENTICATION CONFIGURATION
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login";
+    });
 
 
 var services = builder.Services;
@@ -45,6 +54,8 @@ app.UseRouting();
 
 app.UseSession();
 
+//AUTHENTICATON MIDDLEWARE
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

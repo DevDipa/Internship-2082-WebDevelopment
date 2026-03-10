@@ -3,10 +3,12 @@ using BookieDookie.Data;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
 using BookieDookie.Services.Interface;using BookieDookie.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookieDookie.Controllers
 {
 
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
@@ -22,9 +24,34 @@ namespace BookieDookie.Controllers
         {
             var user = _context.Users.FirstOrDefault();
 
+            if (user == null)
+                return BadRequest("No user found.");
+
+            // 📚 BOOKS READ (books in bookshelf)
+            var booksRead = _context.Books
+                .Count(b => b.UserId == user.Id);
+
+            // 📊 READING STATS
             var stats = _context.ReadingStats
                 .FirstOrDefault(s => s.UserId == user.Id);
 
+            int totalPages = 0;
+            int streak = 0;
+
+            if (stats != null)
+            {
+                totalPages = stats.TotalPagesRead;
+                streak = stats.ReadingStreak;
+
+                ViewBag.BookmarkBook = stats.BookmarkBook;
+                ViewBag.BookmarkPage = stats.BookmarkPage;
+            }
+
+            ViewBag.TotalBooks = booksRead;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Streak = streak;
+
+            // Greeting logic (keep your existing one)
             int hour = DateTime.Now.Hour;
             string greeting;
 
@@ -41,11 +68,7 @@ namespace BookieDookie.Controllers
             else
                 greeting = "Still awake? No worries. BookieDookie's here to befriend you ^.^";
 
-            //ViewBag.UserName = user?.Name ?? "Reader";
             ViewBag.GreetingLine = greeting;
-
-            ViewBag.BookmarkBook = stats?.BookmarkBook;
-            ViewBag.BookmarkPage = stats?.BookmarkPage;
 
             return View();
         }

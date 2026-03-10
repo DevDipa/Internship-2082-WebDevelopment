@@ -1,10 +1,12 @@
 ﻿using BookieDookie.Data;
 using BookieDookie.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookieDookie.Controllers
 {
 
+    [Authorize]
     public class ReadingStatsController : Controller {
         
         private readonly ApplicationDbContext _context;
@@ -51,11 +53,34 @@ namespace BookieDookie.Controllers
         {
             var user = _context.Users.FirstOrDefault();
 
+            if (user == null)
+                return BadRequest("No user found.");
+
             var stats = _context.ReadingStats
                 .FirstOrDefault(s => s.UserId == user.Id);
 
+            if (stats == null)
+                return BadRequest("Reading stats not found.");
+
+            var today = DateTime.UtcNow.Date;
+            var lastDate = stats.LastUpdated.Date;
+
+            int oldPagesToday = stats.PagesReadToday;
+
+            // 🔥 Update reading streak
+            if (pages > 0 && lastDate < today)
+            {
+                if (lastDate == today.AddDays(-1))
+                    stats.ReadingStreak += 1;   // consecutive day
+                else
+                    stats.ReadingStreak = 1;    // restart streak
+            }
+
+            // 📖 Update page counts
+            stats.TotalPagesRead = stats.TotalPagesRead - oldPagesToday + pages;
             stats.PagesReadToday = pages;
-            stats.TotalPagesRead += pages;
+
+            // ⏱ Update timestamp
             stats.LastUpdated = DateTime.UtcNow;
 
             _context.SaveChanges();

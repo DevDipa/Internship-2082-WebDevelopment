@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
 using BookieDookie.Services.Interface;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BookieDookie.Controllers
 {
@@ -19,18 +22,50 @@ namespace BookieDookie.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string username, string password)
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
         {
-            var user = _userService.GetUserByUsername(username);
-
-            if (user != null && user.Password == password)
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                HttpContext.Session.SetString("UserId", user.Id.ToString());
-                return RedirectToAction("Index", "Home");
+                ViewBag.Error = "Username and password required.";
+                return View("Index");
             }
 
-            ViewBag.Error = "Invalid credentials!";
-            return View("Index");
+            var user = _userService.GetUserByUsername(username);
+
+            // If user doesn't exist → redirect to signup
+            if (user == null)
+            {
+                return RedirectToAction("Index"); // or show signup section
+            }
+
+            // If password wrong
+            if (user.Password != password)
+            {
+                ViewBag.Error = "Invalid password.";
+                return View("Index");
+            }
+
+            // AUTHENTICATION COOKIE
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim("UserId", user.Id.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                claimsPrincipal
+            );
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

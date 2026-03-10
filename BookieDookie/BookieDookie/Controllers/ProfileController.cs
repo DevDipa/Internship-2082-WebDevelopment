@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
 using BookieDookie.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookieDookie.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly IUserService _userService;

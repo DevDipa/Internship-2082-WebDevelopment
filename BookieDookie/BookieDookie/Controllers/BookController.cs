@@ -2,9 +2,11 @@
 using BookieDookie.Services;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookieDookie.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly BookService _bookService;
