@@ -1,4 +1,5 @@
-﻿using BookieDookie.Models;
+﻿using System.Security.Claims;
+using BookieDookie.Models;
 using BookieDookie.Services;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Data;
@@ -78,6 +79,10 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult Delete(Guid id)
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (role != "Admin")
+                return RedirectToAction("AccessDenied", "Home");
+            
             _bookService.DeleteBook(id);
             return RedirectToAction("Index");
         }

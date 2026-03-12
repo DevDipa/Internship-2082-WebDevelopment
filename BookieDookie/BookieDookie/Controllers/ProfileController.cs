@@ -44,11 +44,6 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult DeleteAccount(Guid id)
         {
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (role != "Admin")
-                return RedirectToAction("AccessDenied", "Home");
-
             _userService.DeleteUser(id);
 
             return RedirectToAction("Index", "Home");
