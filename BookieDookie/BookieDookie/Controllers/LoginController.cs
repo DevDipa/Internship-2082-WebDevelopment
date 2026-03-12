@@ -50,7 +50,8 @@ namespace BookieDookie.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim("UserId", user.Id.ToString())
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
             var claimsIdentity = new ClaimsIdentity(

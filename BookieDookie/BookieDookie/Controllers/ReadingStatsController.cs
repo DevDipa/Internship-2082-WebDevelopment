@@ -67,20 +67,28 @@ namespace BookieDookie.Controllers
 
             int oldPagesToday = stats.PagesReadToday;
 
-            // 🔥 Update reading streak
-            if (pages > 0 && lastDate < today)
+            // NEW DAY
+            if (lastDate < today)
             {
-                if (lastDate == today.AddDays(-1))
-                    stats.ReadingStreak += 1;   // consecutive day
-                else
-                    stats.ReadingStreak = 1;    // restart streak
+                if (pages > 0)
+                {
+                    if (lastDate == today.AddDays(-1))
+                        stats.ReadingStreak += 1;
+                    else
+                        stats.ReadingStreak = 1;
+                }
+
+                stats.TotalPagesRead += pages;
+                stats.PagesReadToday = pages;
+            }
+            else
+            {
+                // SAME DAY UPDATE
+                int difference = pages - oldPagesToday;
+                stats.TotalPagesRead += difference;
+                stats.PagesReadToday = pages;
             }
 
-            // 📖 Update page counts
-            stats.TotalPagesRead = stats.TotalPagesRead - oldPagesToday + pages;
-            stats.PagesReadToday = pages;
-
-            // ⏱ Update timestamp
             stats.LastUpdated = DateTime.UtcNow;
 
             _context.SaveChanges();
