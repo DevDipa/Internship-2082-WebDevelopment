@@ -85,6 +85,20 @@ html {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
+.logout-button{
+  background-color: #f5ede4;
+  text-decoration: none;
+  color: #5a4a42;   /* soft brown tone */
+  padding: 14px 18px;
+  border: none;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 20px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
 /* Prevent default link colors */
 .nav-item:link,
 .nav-item:visited,

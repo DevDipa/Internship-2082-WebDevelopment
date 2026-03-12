@@ -94,5 +94,17 @@ namespace BookieDookie.Controllers
 
             return RedirectToAction("Index");
         }
+
+        
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
