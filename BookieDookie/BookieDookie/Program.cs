@@ -37,6 +37,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //FOR MY BOOKS
 builder.Services.AddScoped<BookService>();
 
+//AUTHORIZATION
+/*builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = "/Login/Login";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+    });
+builder.Services.AddAuthorization();*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

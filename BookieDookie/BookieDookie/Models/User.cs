@@ -15,8 +15,10 @@ namespace BookieDookie.Models
 
         [Required]
         public string Password { get; set; }
-
+        
         public UserStatus Status { get; set; } = UserStatus.Active;
+
+        public UserRole Role { get; set; }
 
         public List<Book> Books { get; set; }
     }

@@ -2,6 +2,7 @@
 using BookieDookie.Models;
 using BookieDookie.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BookieDookie.Controllers
 {
@@ -17,7 +18,8 @@ namespace BookieDookie.Controllers
 
         public IActionResult Edit()
         {
-            var userIdString = HttpContext.Session.GetString("UserId");
+            var userIdString = User.FindFirst("UserId")?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             if (string.IsNullOrEmpty(userIdString))
                 return RedirectToAction("Index", "Login");
@@ -32,14 +34,21 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult Edit(User updatedUser)
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
             _userService.UpdateUser(updatedUser);
 
             return RedirectToAction("Index", "Home");
         }
-        
+
         [HttpPost]
         public IActionResult DeleteAccount(Guid id)
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (role != "Admin")
+                return RedirectToAction("AccessDenied", "Home");
+
             _userService.DeleteUser(id);
 
             return RedirectToAction("Index", "Home");
@@ -48,6 +57,8 @@ namespace BookieDookie.Controllers
         [HttpPost]
         public IActionResult ToggleStatus(Guid id)
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
             _userService.ToggleStatus(id);
 
             return RedirectToAction("Edit");

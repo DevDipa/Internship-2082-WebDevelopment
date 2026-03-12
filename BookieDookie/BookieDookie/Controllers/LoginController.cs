@@ -22,7 +22,6 @@ namespace BookieDookie.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -51,7 +50,7 @@ namespace BookieDookie.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim("UserId", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
             };
 
             var claimsIdentity = new ClaimsIdentity(
