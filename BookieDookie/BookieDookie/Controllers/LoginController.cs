@@ -69,7 +69,7 @@ namespace BookieDookie.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(string email, string username, string password, string confirmPassword)
+        public IActionResult SignUp(string email, string username, UserRole role, string password, string confirmPassword)
         {
             if (password != confirmPassword)
             {
@@ -87,6 +87,7 @@ namespace BookieDookie.Controllers
             {
                 Email = email,
                 Username = username,
+                Role = role,
                 Password = password
             };
 
