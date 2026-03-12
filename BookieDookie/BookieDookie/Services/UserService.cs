@@ -37,7 +37,16 @@ namespace BookieDookie.Services
 
         public void UpdateUser(User updatedUser)
         {
-            _context.Users.Update(updatedUser);
+            var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
+
+            if (user == null)
+                return;
+
+            user.Email = updatedUser.Email;
+            user.Username = updatedUser.Username;
+            user.Role = updatedUser.Role;
+            user.Password = updatedUser.Password;
+
             _context.SaveChanges();
         }
         
