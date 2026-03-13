@@ -13,6 +13,7 @@ namespace BookieDookie.Services.Interface
         void ToggleStatus(Guid id);
         List<User> GetActiveUsers();
         List<User> GetInactiveUsers();
+        User GetUserByEmail(string email);
     }
 }
 

@@ -22,7 +22,7 @@
             <input type="password" name="password" placeholder="Password" required />
             <button type="submit" class="main-btn">Welcome Back:)</button>
 
-            <p class="link">Need a hand with your password?</p>
+            <p class="link" onclick="showForgotPassword()">Need a hand with your password?</p>
             <p class="link" onclick="showSignup()">New here? Begin your journey...</p>
         </form>
 
@@ -56,6 +56,10 @@
     function showSignup() {
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("signupForm").style.display = "block";
+    }
+
+    function showForgotPassword() {
+        window.location.href = "/Login/ForgotPassword";
     }
 </script>
 </body>

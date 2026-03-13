@@ -90,5 +90,10 @@ namespace BookieDookie.Services
                 .Where(u => u.Status == UserStatus.Inactive)
                 .ToList();
         }
+        
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

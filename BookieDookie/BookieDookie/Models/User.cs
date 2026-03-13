@@ -19,6 +19,10 @@ namespace BookieDookie.Models
         public UserStatus Status { get; set; } = UserStatus.Active;
 
         public UserRole Role { get; set; }
+        
+        public string? TotpSecret { get; set; }
+
+        public DateTime? TotpGeneratedAt { get; set; }
 
         public List<Book> Books { get; set; }
     }

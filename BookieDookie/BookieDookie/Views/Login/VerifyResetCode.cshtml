@@ -1,0 +1,8 @@
+﻿<h3>Enter Reset Code</h3>
+
+<p>Your code: @TempData["ResetCode"]</p>
+
+<form asp-action="VerifyResetCode" method="post">
+    <input name="code" placeholder="Reset code" required />
+    <button type="submit">Verify</button>
+</form>
