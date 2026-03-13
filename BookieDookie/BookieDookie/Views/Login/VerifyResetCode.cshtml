@@ -1,8 +1,52 @@
-﻿<h3>Enter Reset Code</h3>
+﻿@{
+    Layout = null;
+}
 
-<p>Your code: @TempData["ResetCode"]</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Verify Reset Code - BookieDookie</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
 
-<form asp-action="VerifyResetCode" method="post">
-    <input name="code" placeholder="Reset code" required />
-    <button type="submit">Verify</button>
-</form>
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1>BookieDookie</h1>
+        <h3 class="subtitle">Verify your reset code</h3>
+
+        <p class="info-text">
+            Use the reset code sent to your email.
+        </p>
+
+        <p class="reset-code">
+            Your code: <strong>@TempData["ResetCode"]</strong>
+        </p>
+
+        <form asp-action="VerifyResetCode" method="post">
+
+            <input name="code"
+                   placeholder="Enter reset code"
+                   required />
+
+            <button type="submit" class="main-btn">
+                Verify Code
+            </button>
+
+        </form>
+
+        <p class="link"
+           onclick="window.location.href='/Login/Index'">
+            Back to login
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

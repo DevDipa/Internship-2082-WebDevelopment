@@ -75,3 +75,70 @@
     color: #b00020;
     font-size: 16px;
 }
+
+
+/*PASSWORD RESET*/
+/*Forgot Password*/
+.subtitle{
+    font-size:16px;
+    margin-bottom:20px;
+    color:#6b5b4d;
+}
+
+.login-card form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.login-card input{
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:14px;
+}
+
+.login-card input:focus{
+    outline:none;
+    border-color:#a58e7c;
+}
+
+.main-btn{
+    background:#8f6f5c;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+.main-btn:hover{
+    background:#7b5f4f;
+}
+
+.link{
+    margin-top:15px;
+    font-size:14px;
+    color:#7b5f4f;
+    cursor:pointer;
+}
+
+.link:hover{
+    text-decoration:underline;
+}
+
+
+/*Verify Reset Code*/
+.info-text{
+    font-size:14px;
+    color:#7b6b5e;
+    margin-bottom:10px;
+}
+
+.reset-code{
+    font-size:14px;
+    margin-bottom:20px;
+    color:#5f4c3f;
+}
