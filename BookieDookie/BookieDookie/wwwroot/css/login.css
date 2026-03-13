@@ -77,8 +77,8 @@
 }
 
 
-/*PASSWORD RESET*/
-/*Forgot Password*/
+/*PASSWORD RESET
+Forgot Password
 .subtitle{
     font-size:16px;
     margin-bottom:20px;
@@ -103,7 +103,7 @@
     border-color:#a58e7c;
 }
 
-.main-btn{
+.reset-code-btn{
     background:#8f6f5c;
     color:white;
     border:none;
@@ -128,6 +128,7 @@
 .link:hover{
     text-decoration:underline;
 }
+*/
 
 
 /*Verify Reset Code*/

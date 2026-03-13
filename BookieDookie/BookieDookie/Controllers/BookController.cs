@@ -3,6 +3,7 @@ using BookieDookie.Models;
 using BookieDookie.Services;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Data;
+using BookieDookie.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BookieDookie.Controllers
@@ -10,11 +11,11 @@ namespace BookieDookie.Controllers
     [Authorize]
     public class BookController : Controller
     {
-        private readonly BookService _bookService;
+        private readonly IBookService _bookService;
 
         private readonly ApplicationDbContext _context;
 
-        public BookController(BookService bookService, ApplicationDbContext context)
+        public BookController(IBookService bookService, ApplicationDbContext context)
         {
             _bookService = bookService;
             _context = context;

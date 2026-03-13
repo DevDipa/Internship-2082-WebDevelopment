@@ -67,7 +67,7 @@ namespace BookieDookie.Controllers
 
             int oldPagesToday = stats.PagesReadToday;
 
-            // NEW DAY
+            //next day logic
             if (lastDate < today)
             {
                 if (pages > 0)
@@ -83,7 +83,7 @@ namespace BookieDookie.Controllers
             }
             else
             {
-                // SAME DAY UPDATE
+                //same day logic
                 int difference = pages - oldPagesToday;
                 stats.TotalPagesRead += difference;
                 stats.PagesReadToday = pages;

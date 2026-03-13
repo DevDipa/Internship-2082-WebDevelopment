@@ -17,6 +17,7 @@ builder.Services.AddSession();
 
 //DEPENDENCY INJECTION REGISTRATION
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 //AUTHENTICATION CONFIGURATION
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

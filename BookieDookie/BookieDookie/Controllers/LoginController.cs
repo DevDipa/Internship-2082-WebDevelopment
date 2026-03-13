@@ -36,14 +36,12 @@ namespace BookieDookie.Controllers
             }
 
             var user = _userService.GetUserByUsername(username);
-
-            // If user doesn't exist → redirect to signup
+            
             if (user == null)
             {
-                return RedirectToAction("Index"); // or show signup section
+                return RedirectToAction("Index");
             }
-
-            // If password wrong
+            
             if (user.Password != password)
             {
                 ViewBag.Error = "Invalid password.";
@@ -140,7 +138,7 @@ namespace BookieDookie.Controllers
             var code = totp.ComputeTotp();
 
             TempData["ResetCode"] = code;
-            TempData["ResetUserId"] = user.Id;   // ⭐ IMPORTANT
+            TempData["ResetUserId"] = user.Id;
 
             return RedirectToAction("VerifyResetCode");
         }

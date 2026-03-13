@@ -27,11 +27,11 @@ namespace BookieDookie.Controllers
             if (user == null)
                 return BadRequest("No user found.");
 
-            // 📚 BOOKS READ (books in bookshelf)
+            // books read
             var booksRead = _context.Books
                 .Count(b => b.UserId == user.Id);
 
-            // 📊 READING STATS
+            // reading stats
             var stats = _context.ReadingStats
                 .FirstOrDefault(s => s.UserId == user.Id);
 
@@ -51,7 +51,7 @@ namespace BookieDookie.Controllers
             ViewBag.TotalPages = totalPages;
             ViewBag.Streak = streak;
 
-            // Greeting logic (keep your existing one)
+            // greeting logic
             int hour = DateTime.Now.Hour;
             string greeting;
 

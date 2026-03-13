@@ -1,10 +1,11 @@
 ﻿using BookieDookie.Models;
 using BookieDookie.Data;
+using BookieDookie.Services.Interface;
 
 namespace BookieDookie.Services
 {
 
-    public class BookService
+    public class BookService: IBookService
     {
         private readonly ApplicationDbContext _context;
 
