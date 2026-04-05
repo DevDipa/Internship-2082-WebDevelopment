@@ -55,6 +55,8 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+app.Urls.Add("http://0.0.0.0:8080");
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
