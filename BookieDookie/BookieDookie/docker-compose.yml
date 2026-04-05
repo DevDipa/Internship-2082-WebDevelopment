@@ -1,0 +1,27 @@
+﻿services:
+  app:
+    build: .
+    container_name: bookiedookie_app
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=BookieDookieDb;Username=postgres;Password=Dipa
+
+  db:
+    image: postgres:15
+    container_name: bookiedookie_db
+    restart: always
+    environment:
+      POSTGRES_DB: BookieDookieDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Dipa
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
