@@ -3,6 +3,7 @@ using System;
 using BookieDookie.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookieDookie.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260829175213_AddLastReadingDate")]
+    partial class AddLastReadingDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,29 +68,6 @@ namespace BookieDookie.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("BookieDookie.Models.ReadingHistory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("PagesRead")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("ReadingDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId", "ReadingDate")
-                        .IsUnique();
-
-                    b.ToTable("ReadingHistory");
                 });
 
             modelBuilder.Entity("BookieDookie.Models.ReadingStats", b =>
@@ -180,17 +160,6 @@ namespace BookieDookie.Migrations
                         .WithMany("Books")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BookieDookie.Models.ReadingHistory", b =>
-                {
-                    b.HasOne("BookieDookie.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

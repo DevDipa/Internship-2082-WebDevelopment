@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OtpNet;
+using System.Text.RegularExpressions;
 
 namespace BookieDookie.Controllers
 {
@@ -130,6 +131,19 @@ namespace BookieDookie.Controllers
             }
 
 
+            // =========================
+            // PASSWORD VALIDATION
+            // =========================
+
+            if (!IsValidPassword(password))
+            {
+                ViewBag.Error =
+                    "Password must be at least 5 characters and include an uppercase letter, a number and a special character.";
+
+                return View("Index");
+            }
+
+
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Passwords do not match!";
@@ -148,7 +162,8 @@ namespace BookieDookie.Controllers
 
             if (_userService.GetUserByEmail(email) != null)
             {
-                ViewBag.Error = "An account with this email already exists!";
+                ViewBag.Error =
+                    "An account with this email already exists!";
 
                 return View("Index");
             }
@@ -183,7 +198,7 @@ namespace BookieDookie.Controllers
         // =========================
         // LOGOUT
         // =========================
-        
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
@@ -217,7 +232,8 @@ namespace BookieDookie.Controllers
 
             if (user == null)
             {
-                ViewBag.Error = "No account was found with that email.";
+                ViewBag.Error =
+                    "No account was found with that email.";
 
                 return View("ForgotPassword");
             }
@@ -281,8 +297,7 @@ namespace BookieDookie.Controllers
 
 
             var user =
-                _context.Users.FirstOrDefault(
-                    u => u.Id == userId);
+                _context.Users.FirstOrDefault(u => u.Id == userId);
 
 
             if (user == null ||
@@ -341,6 +356,13 @@ namespace BookieDookie.Controllers
             string password,
             string confirmPassword)
         {
+            if (!IsValidPassword(password))
+            {
+                return Content(
+                    "Password must be at least 5 characters and include an uppercase letter, a number and a special character.");
+            }
+
+
             if (password != confirmPassword)
             {
                 return Content(
@@ -388,5 +410,19 @@ namespace BookieDookie.Controllers
                 "Index",
                 "Login");
         }
+
+
+        // =========================
+        // PASSWORD VALIDATION
+        // =========================
+
+        private bool IsValidPassword(string password)
+        {
+            return password.Length >= 5 &&
+                   Regex.IsMatch(password, "[A-Z]") &&
+                   Regex.IsMatch(password, "[0-9]") &&
+                   Regex.IsMatch(password, @"[^a-zA-Z0-9]");
+        }
     }
+
 }

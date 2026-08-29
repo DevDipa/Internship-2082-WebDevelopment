@@ -1,39 +1,60 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using BookieDookie.Data;
 using Microsoft.AspNetCore.Mvc;
 using BookieDookie.Models;
-using BookieDookie.Services.Interface;using BookieDookie.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BookieDookie.Controllers
 {
-
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IUserService _userService;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(IUserService userService, ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context)
         {
-            _userService = userService;
             _context = context;
         }
 
         public IActionResult Index()
         {
-            var user = _context.Users.FirstOrDefault();
+            // Get the currently logged-in user's ID
+            var userIdClaim = User.FindFirstValue("UserId");
+
+            if (string.IsNullOrEmpty(userIdClaim) ||
+                !Guid.TryParse(userIdClaim, out Guid userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            // Make sure the logged-in user actually exists
+            var user = _context.Users
+                .FirstOrDefault(u =>
+                    u.Id == userId &&
+                    !u.IsDeleted);
 
             if (user == null)
-                return BadRequest("No user found.");
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
-            // books read
+            // =========================
+            // USER'S BOOKS
+            // =========================
+
             var booksRead = _context.Books
-                .Count(b => b.UserId == user.Id);
+                .Count(b =>
+                    b.UserId == userId &&
+                    !b.IsDeleted);
 
-            // reading stats
+            // =========================
+            // USER'S READING STATS
+            // =========================
+
             var stats = _context.ReadingStats
-                .FirstOrDefault(s => s.UserId == user.Id);
+                .FirstOrDefault(s =>
+                    s.UserId == userId);
 
             int totalPages = 0;
             int streak = 0;
@@ -51,7 +72,10 @@ namespace BookieDookie.Controllers
             ViewBag.TotalPages = totalPages;
             ViewBag.Streak = streak;
 
-            // greeting logic
+            // =========================
+            // GREETING
+            // =========================
+
             int hour = DateTime.Now.Hour;
             string greeting;
 
@@ -72,11 +96,10 @@ namespace BookieDookie.Controllers
 
             return View();
         }
-        
-        public IActionResult AccessDenied ()
+
+        public IActionResult AccessDenied()
         {
             return View();
         }
     }
-
 }

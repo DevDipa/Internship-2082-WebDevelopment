@@ -22,6 +22,8 @@
 
         public DateTime LastUpdated { get; set; }
 
+        public DateTime? LastReadingDate { get; set; }
+
         public User User { get; set; }
     }
 }

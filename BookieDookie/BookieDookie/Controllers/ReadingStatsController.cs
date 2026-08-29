@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookieDookie.Controllers
 {
-
     [Authorize]
-    public class ReadingStatsController : Controller {
-        
+    public class ReadingStatsController : Controller
+    {
         private readonly ApplicationDbContext _context;
 
         public ReadingStatsController(ApplicationDbContext context)
@@ -16,78 +15,208 @@ namespace BookieDookie.Controllers
             _context = context;
         }
 
+
+        // =========================
+        // READING STATS PAGE
+        // =========================
+
         public IActionResult Index()
         {
-            var user = _context.Users.FirstOrDefault();
+            var userIdString = User.FindFirst("UserId")?.Value;
 
-            if (user == null)
-            {
-                return Content("No user found in database.");
-            }
+            if (!Guid.TryParse(userIdString, out Guid userId))
+                return Unauthorized();
 
             var stats = _context.ReadingStats
-                .FirstOrDefault(s => s.UserId == user.Id);
+                .FirstOrDefault(s => s.UserId == userId);
 
             if (stats == null)
             {
                 stats = new ReadingStats
                 {
                     Id = Guid.NewGuid(),
-                    UserId = user.Id,
+
+                    UserId = userId,
+
                     PagesReadToday = 0,
+
                     TotalPagesRead = 0,
+
                     BooksRead = 0,
+
                     ReadingStreak = 0,
-                    LastUpdated = DateTime.UtcNow
+
+                    LastUpdated = DateTime.UtcNow,
+
+                    LastReadingDate = null
                 };
 
                 _context.ReadingStats.Add(stats);
+
                 _context.SaveChanges();
             }
 
             return View(stats);
         }
 
+
+        // =========================
+        // UPDATE PAGES
+        // =========================
+
         [HttpPost]
         public IActionResult UpdatePages(int pages)
         {
-            var user = _context.Users.FirstOrDefault();
+            var userIdString = User.FindFirst("UserId")?.Value;
 
-            if (user == null)
-                return BadRequest("No user found.");
+            if (!Guid.TryParse(userIdString, out Guid userId))
+                return Unauthorized();
 
             var stats = _context.ReadingStats
-                .FirstOrDefault(s => s.UserId == user.Id);
+                .FirstOrDefault(s => s.UserId == userId);
 
             if (stats == null)
                 return BadRequest("Reading stats not found.");
 
+
+            // =========================
+            // DATE INFORMATION
+            // =========================
+
             var today = DateTime.UtcNow.Date;
-            var lastDate = stats.LastUpdated.Date;
 
-            int oldPagesToday = stats.PagesReadToday;
 
-            //next day logic
-            if (lastDate < today)
+            // =========================
+            // PREVENT NEGATIVE VALUES
+            // =========================
+
+            if (pages < 0)
+                pages = 0;
+
+
+            // =========================
+            // FIRST READING ACTIVITY
+            // =========================
+
+            if (stats.LastReadingDate == null)
             {
                 if (pages > 0)
                 {
-                    if (lastDate == today.AddDays(-1))
-                        stats.ReadingStreak += 1;
-                    else
-                        stats.ReadingStreak = 1;
+                    stats.ReadingStreak = 1;
+                    stats.LastReadingDate = today;
                 }
-
-                stats.TotalPagesRead += pages;
-                stats.PagesReadToday = pages;
             }
+
+
+            // =========================
+            // READING ACTIVITY EXISTS
+            // =========================
+
             else
             {
-                //same day logic
-                int difference = pages - oldPagesToday;
-                stats.TotalPagesRead += difference;
-                stats.PagesReadToday = pages;
+                var lastReadingDate =
+                    stats.LastReadingDate.Value.Date;
+
+                var daysSinceLastReading =
+                    (today - lastReadingDate).Days;
+
+
+                // ---------------------------------
+                // SAME DAY
+                // ---------------------------------
+
+                if (daysSinceLastReading == 0)
+                {
+                    // Same-day updates do NOT increase streak.
+
+                    int difference =
+                        pages - stats.PagesReadToday;
+
+                    stats.TotalPagesRead += difference;
+
+                    stats.PagesReadToday = pages;
+                }
+
+
+                // ---------------------------------
+                // EXACTLY ONE DAY LATER
+                // ---------------------------------
+
+                else if (daysSinceLastReading == 1)
+                {
+                    // A new reading day.
+                    // Increase streak only if pages > 0.
+
+                    if (pages > 0)
+                    {
+                        stats.ReadingStreak += 1;
+                        stats.LastReadingDate = today;
+                    }
+
+                    stats.TotalPagesRead += pages;
+                    stats.PagesReadToday = pages;
+                }
+
+
+                // ---------------------------------
+                // MISSED ONE OR MORE DAYS
+                // ---------------------------------
+
+                else
+                {
+                    // User missed at least one complete day.
+                    // Streak starts again from 1.
+
+                    if (pages > 0)
+                    {
+                        stats.ReadingStreak = 1;
+                        stats.LastReadingDate = today;
+                    }
+                    else
+                    {
+                        stats.ReadingStreak = 0;
+                    }
+
+                    stats.TotalPagesRead += pages;
+                    stats.PagesReadToday = pages;
+                }
             }
+
+
+            // =========================
+            // GENERAL UPDATE TIME
+            // =========================
+
+            stats.LastUpdated = DateTime.UtcNow;
+
+
+            _context.SaveChanges();
+
+
+            return RedirectToAction("Index");
+        }
+
+
+        // =========================
+        // UPDATE BOOKMARK
+        // =========================
+
+        [HttpPost]
+        public IActionResult UpdateBookmark(string book, int page)
+        {
+            var userIdString = User.FindFirst("UserId")?.Value;
+
+            if (!Guid.TryParse(userIdString, out Guid userId))
+                return Unauthorized();
+
+            var stats = _context.ReadingStats
+                .FirstOrDefault(s => s.UserId == userId);
+
+            if (stats == null)
+                return BadRequest("Reading stats not found.");
+
+            stats.BookmarkBook = book;
+            stats.BookmarkPage = page;
 
             stats.LastUpdated = DateTime.UtcNow;
 
@@ -95,32 +224,29 @@ namespace BookieDookie.Controllers
 
             return RedirectToAction("Index");
         }
-        
-        [HttpPost]
-        public IActionResult UpdateBookmark(string book, int page)
-        {
-            var user = _context.Users.FirstOrDefault();
 
-            var stats = _context.ReadingStats
-                .FirstOrDefault(s => s.UserId == user.Id);
 
-            stats.BookmarkBook = book;
-            stats.BookmarkPage = page;
+        // =========================
+        // UPDATE FEELING
+        // =========================
 
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-        
         [HttpPost]
         public IActionResult UpdateFeeling(string feeling)
         {
-            var user = _context.Users.FirstOrDefault();
+            var userIdString = User.FindFirst("UserId")?.Value;
+
+            if (!Guid.TryParse(userIdString, out Guid userId))
+                return Unauthorized();
 
             var stats = _context.ReadingStats
-                .FirstOrDefault(s => s.UserId == user.Id);
+                .FirstOrDefault(s => s.UserId == userId);
+
+            if (stats == null)
+                return BadRequest("Reading stats not found.");
 
             stats.Feeling = feeling;
+
+            stats.LastUpdated = DateTime.UtcNow;
 
             _context.SaveChanges();
 
