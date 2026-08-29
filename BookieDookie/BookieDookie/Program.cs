@@ -85,6 +85,20 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// ==========================================
+// DATABASE MIGRATION
+// ==========================================
+
+using (var scope = app.Services.CreateScope())
+{
+    var db =
+        scope.ServiceProvider
+            .GetRequiredService<ApplicationDbContext>();
+
+    db.Database.Migrate();
+}
+
+
 //Admin Seeding
 using (var scope = app.Services.CreateScope())
 {
@@ -127,19 +141,6 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
-// ==========================================
-// DATABASE MIGRATION
-// ==========================================
-
-using (var scope = app.Services.CreateScope())
-{
-    var db =
-        scope.ServiceProvider
-            .GetRequiredService<ApplicationDbContext>();
-
-    db.Database.Migrate();
-}
-
 
 // ==========================================
 // SERVER URL
