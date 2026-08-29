@@ -1,66 +1,281 @@
 ﻿@{
-    Layout = null;
+Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang = "en">
+
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Login - BookieDookie</title>
-    <link rel="stylesheet" href="~/css/login.css" />
+    
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/font-awesome/all.min.css" />
+
 </head>
 
 <body>
+
 <div class="login-container">
+    
+<div class="login-card">
 
-    <div class="login-card">
-        <h1>BookieDookie</h1>
+    <h1>BookieDookie</h1>
 
-        <!-- LOGIN FORM -->
-        <form id="loginForm" method="post" asp-controller="Login" asp-action="Login">
-            <input type="text" name="username" placeholder="Username" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <button type="submit" class="main-btn">Welcome Back:)</button>
 
-            <p class="link" onclick="showForgotPassword()">Need a hand with your password?</p>
-            <p class="link" onclick="showSignup()">New here? Begin your journey...</p>
-        </form>
+    <!-- =========================
+         LOGIN FORM
+         ========================= -->
 
-        <!-- SIGNUP FORM -->
-        <form id="signupForm" method="post" asp-controller="Login" asp-action="SignUp" style="display:none;">
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="text" name="username" placeholder="Username" required />
-            <input type="text" name="role" placeholder="Role(Admin/User)" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+    <form id="loginForm"
+          method="post"
+          asp-controller="Login"
+          asp-action="Login">
 
-            <button type="submit" class="main-btn">Start Your Own Story</button>
+        <input type="text"
+               name="username"
+               placeholder="Username"
+               autocomplete="username"
+               required />
 
-            <p class="link" onclick="showLogin()">Already have a space? Please continue...</p>
-        </form>
 
-        @if (ViewBag.Error != null)
-        {
-            <p class="error-message">@ViewBag.Error</p>
-        }
+        <!-- Password with eye toggle -->
+        <div class="password-field">
 
-    </div>
+            <input type="password"
+                   name="password"
+                   id="loginPassword"
+                   placeholder="Password"
+                   autocomplete="current-password"
+                   required />
+
+            <span class="toggle-eye"
+                  onclick="togglePassword('loginPassword', this)"
+                  title="Show password">◉</span>
+
+        </div>
+
+
+        <button type="submit" class="main-btn">
+            Welcome Back:)
+        </button>
+
+
+        <p class="link"
+           onclick="showForgotPassword()">
+            Need a hand with your password?
+        </p>
+
+        <p class="link"
+           onclick="showSignup()">
+            New here? Begin your journey...
+        </p>
+
+    </form>
+
+
+
+    <!-- =========================
+         SIGNUP FORM
+         ========================= -->
+
+    <form id="signupForm"
+          method="post"
+          asp-controller="Login"
+          asp-action="SignUp"
+          style="display:none;">
+
+        <input type="email"
+               name="email"
+               placeholder="Email"
+               autocomplete="email"
+               required />
+
+        <input type="text"
+               name="username"
+               placeholder="Username"
+               autocomplete="username"
+               required />
+
+
+        <!-- Signup Password -->
+        <div class="password-field">
+
+            <input type="password"
+                   name="password"
+                   id="signupPassword"
+                   placeholder="Password"
+                   autocomplete="new-password"
+                   required />
+
+            <span class="toggle-eye"
+                  onclick="togglePassword('loginPassword', this)"
+                  title="Show password">◉</span>
+
+        </div>
+
+
+        <!-- Confirm Password -->
+        <div class="password-field">
+
+            <input type="password"
+                   name="confirmPassword"
+                   id="signupConfirmPassword"
+                   placeholder="Confirm Password"
+                   autocomplete="new-password"
+                   required />
+
+            <span class="toggle-eye"
+                  onclick="togglePassword('loginPassword', this)"
+                  title="Show password">◉</span>
+
+        </div>
+
+
+        <button type="submit" class="main-btn">
+            Start Your Own Story
+        </button>
+
+
+        <p class="link"
+           onclick="showLogin()">
+            Already have a space? Please continue...
+        </p>
+
+    </form>
+
+
+    <!-- =========================
+         ERROR MESSAGE
+         ========================= -->
+
+    @if (ViewBag.Error != null)
+    {
+        <p class="error-message" id="errorMessage">
+            @ViewBag.Error
+        </p>
+    }
+
+</div>
+
 </div>
 
 <script>
+
+    /* =========================
+       PASSWORD EYE TOGGLE
+       ========================= */
+
+    function togglePassword(inputId, icon) {
+
+        const input = document.getElementById(inputId);
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+
+            icon.title = "Hide password";
+
+        } else {
+
+            input.type = "password";
+
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+
+            icon.title = "Show password";
+        }
+    }
+
+
+
+    /* =========================
+       SHOW LOGIN
+       ========================= */
+
     function showLogin() {
+
         document.getElementById("loginForm").style.display = "block";
         document.getElementById("signupForm").style.display = "none";
+
+        clearError();
+        clearForms();
     }
+
+
+
+    /* =========================
+       SHOW SIGNUP
+       ========================= */
 
     function showSignup() {
+
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("signupForm").style.display = "block";
+
+        clearError();
+        clearForms();
     }
 
+
+
+    /* =========================
+       FORGOT PASSWORD
+       ========================= */
+
     function showForgotPassword() {
+
         window.location.href = "/Login/ForgotPassword";
     }
+
+
+
+    /* =========================
+       CLEAR ERROR
+       ========================= */
+
+    function clearError() {
+
+        const error = document.getElementById("errorMessage");
+
+        if (error) {
+            error.remove();
+        }
+    }
+
+
+
+    /* =========================
+       CLEAR FORM FIELDS
+       ========================= */
+
+    function clearForms() {
+
+        document.getElementById("loginForm").reset();
+        document.getElementById("signupForm").reset();
+
+        /* Reset all password eye icons */
+        document.querySelectorAll(".toggle-eye").forEach(function (icon) {
+
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+
+            icon.title = "Show password";
+
+        });
+
+        /* Make sure password fields return to hidden state */
+        document.querySelectorAll(".password-field input").forEach(function (input) {
+
+            input.type = "password";
+
+        });
+    }
+
 </script>
+
 </body>
 </html>

@@ -1,45 +1,159 @@
 ﻿@model BookieDookie.Models.User
 
-<link rel="stylesheet" href="~/css/profile.css" />
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<link rel="stylesheet"
+      href="~/css/profile.css"
+      asp-append-version="true" />
 
 <div class="profile-container">
+
     <div class="profile-card">
+
         <h2>Edit Profile</h2>
+
+
+        <!-- =====================================================
+             ACCOUNT STATUS
+             ===================================================== -->
 
         <p class="status-text">
             Status:
-            <span class="status-badge @(Model.Status == BookieDookie.Models.UserStatus.Active ? "active-status" : "inactive-status")">
+
+            <span class="status-badge @(Model.Status == BookieDookie.Models.UserStatus.Active
+                                        ? "active-status"
+                                        : "inactive-status")">
+
                 @Model.Status
+
             </span>
         </p>
 
-        <form method="post">
-            <input type="hidden" asp-for="Id" />
 
-            <input asp-for="Email" placeholder="Email" required />
-            <input asp-for="Username" placeholder="Username" required />
-            <input asp-for="Role" placeholder="Role(Admin/User)" required />
-            <input asp-for="Password" type="password" placeholder="Password" required />
+        <!-- =====================================================
+             PROFILE MESSAGES
+             ===================================================== -->
 
-            <button type="submit" class="main-btn">Save Changes</button>
-        </form>
+        @if (TempData["ProfileError"] != null)
+        {
+            <div class="profile-message error-message">
+                @TempData["ProfileError"]
+            </div>
+        }
 
-        <form asp-action="ToggleStatus" method="post" class="toggle-form">
-            <input type="hidden" name="id" value="@Model.Id" />
+
+        @if (TempData["ProfileSuccess"] != null)
+        {
+            <div class="profile-message success-message">
+                @TempData["ProfileSuccess"]
+            </div>
+        }
+
+
+        <!-- =====================================================
+             EDIT PROFILE
+             ONLY EMAIL + USERNAME
+             ===================================================== -->
+
+        <form asp-action="Edit"
+              asp-controller="Profile"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="email"
+                   name="email"
+                   value="@Model.Email"
+                   placeholder="Email"
+                   required />
+
+            <input type="text"
+                   name="username"
+                   value="@Model.Username"
+                   placeholder="Username"
+                   required />
 
             <button type="submit"
-                    class="toggle-btn @(Model.Status == BookieDookie.Models.UserStatus.Active ? "deactivate-btn" : "activate-btn")">
-                @(Model.Status == BookieDookie.Models.UserStatus.Active 
-                    ? "Deactivate Account" 
+                    class="main-btn">
+
+                Save Changes
+
+            </button>
+
+        </form>
+
+
+        <!-- =====================================================
+             DEACTIVATE / ACTIVATE ACCOUNT
+             ADMIN ONLY ACTION
+             ===================================================== -->
+        <br/>
+        <form asp-action="ToggleStatus"
+              asp-controller="Profile"
+              method="post"
+              class="toggle-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.Id" />
+
+            <button type="submit"
+                    class="toggle-btn @(Model.Status == BookieDookie.Models.UserStatus.Active
+                                        ? "deactivate-btn"
+                                        : "activate-btn")">
+
+                @(Model.Status == BookieDookie.Models.UserStatus.Active
+                    ? "Deactivate Account"
                     : "Activate Account")
+
             </button>
+
         </form>
-        
-        <form asp-action="DeleteAccount" method="post" class="delete-form">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="delete-btn">
+
+
+        <!-- =====================================================
+             DELETE ACCOUNT
+             ===================================================== -->
+
+        <form asp-action="DeleteAccount"
+              asp-controller="Profile"
+              method="post"
+              class="delete-form"
+              onsubmit="return confirm('Are you sure you want to permanently delete your account?');">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit"
+                    class="delete-btn">
+
                 Delete Account
+
             </button>
+
         </form>
+
+
+        <!-- =====================================================
+             PASSWORD INFORMATION
+             ===================================================== -->
+
+        <p class="profile-info">
+
+            Password changes are available through
+
+            <a asp-controller="Login"
+               asp-action="ForgotPassword">
+
+                OTP password recovery
+
+            </a>.
+
+        </p>
+
     </div>
+
 </div>

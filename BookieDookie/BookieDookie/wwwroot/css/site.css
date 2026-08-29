@@ -44,17 +44,27 @@ html {
 .dashboard-container {
   font-family: 'Allura', cursive;
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
+
+
 
 /* Sidebar */
 .sidebar {
   width: 240px;
+  height: 100vh;
+
   background-color: #f5ede4;
+
   padding: 20px 15px;
+
   display: flex;
   flex-direction: column;
+
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+
+  flex-shrink: 0;
 }
 
 .sidebar-logo {
@@ -118,13 +128,16 @@ html {
 .nav-item.active {
   background: #d7c0a6;
   color: #3a2f29;
-  font-weight: 600;
 }
 
 /* Main Content */
 .main-content {
   flex: 1;
   padding: 30px;
+
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /*HOME VIEW*/

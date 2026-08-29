@@ -2,21 +2,70 @@
 
 <link rel="stylesheet" href="~/css/book.css"/>
 
-<div class="book-container">
+<div class="book-container edit-book-container">
+
     <h2>Edit Book</h2>
-    
-    <form asp-action="Edit" method="post">
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
 
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="UserId" />
         <input type="hidden" asp-for="ImageUrl" />
 
-        <input asp-for="Title" placeholder="Title" />
-        <input asp-for="Author" placeholder="Author" />
-        <input asp-for="Genre" placeholder="Genre" />
-        <textarea asp-for="Description" placeholder="Summary"></textarea>
+        <div class="edit-book-content">
 
+            <!-- LEFT SIDE: Book Details -->
+            <div class="book-details">
+
+                <input asp-for="Title" placeholder="Title" />
+
+                <input asp-for="Author" placeholder="Author" />
+
+                <input asp-for="Genre" placeholder="Genre" />
+
+                <textarea asp-for="Description"
+                          placeholder="Summary"></textarea>
+
+            </div>
+
+
+            <!-- RIGHT SIDE: Cover -->
+            <div class="cover-section">
+
+                <!-- Current Cover -->
+                <div class="current-cover">
+
+                    <p>Current Cover</p>
+
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl"
+                             alt="Current book cover" />
+                    }
+
+                </div>
+
+
+                <!-- Replace Cover -->
+                <div class="replace-cover">
+
+                    <p>Replace Cover</p>
+
+                    <input type="file"
+                           id="ImageFile"
+                           name="ImageFile"
+                           accept="image/*" />
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SAVE BUTTON -->
         <button type="submit">Save Changes</button>
 
     </form>
+
 </div>

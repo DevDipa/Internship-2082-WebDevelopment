@@ -6,7 +6,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OtpNet;
-using System.Security.Cryptography;
 
 namespace BookieDookie.Controllers
 {
@@ -14,135 +13,249 @@ namespace BookieDookie.Controllers
     {
         private readonly IUserService _userService;
         private readonly ApplicationDbContext _context;
-        
-        public LoginController(IUserService userService, ApplicationDbContext context)
+
+        public LoginController(
+            IUserService userService,
+            ApplicationDbContext context)
         {
             _userService = userService;
             _context = context;
         }
 
+
+        // =========================
+        // LOGIN PAGE
+        // =========================
+
+        [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Error = null;
+
             return View();
         }
 
+
+        // =========================
+        // LOGIN
+        // =========================
+
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(
+            string username,
+            string password)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password))
             {
-                ViewBag.Error = "Username and password required.";
+                ViewBag.Error = "Username and password are required.";
+
                 return View("Index");
             }
 
             var user = _userService.GetUserByUsername(username);
-            
-            if (user == null)
+
+            if (user == null ||
+                !_userService.VerifyPassword(user, password))
             {
-                return RedirectToAction("Index");
-            }
-            
-            if (user.Password != password)
-            {
-                ViewBag.Error = "Invalid password.";
+                ViewBag.Error = "Invalid username or password.";
+
                 return View("Index");
             }
 
+            if (user.Status != UserStatus.Active)
+            {
+                ViewBag.Error = "Your account is inactive.";
+
+                return View("Index");
+            }
+
+
+            // =========================
             // AUTHENTICATION COOKIE
+            // =========================
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim("UserId", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(
+                    ClaimTypes.Name,
+                    user.Username),
+
+                new Claim(
+                    "UserId",
+                    user.Id.ToString()),
+
+                new Claim(
+                    ClaimTypes.Role,
+                    user.Role.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(
                 claims,
-                CookieAuthenticationDefaults.AuthenticationScheme
-            );
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var claimsPrincipal =
+                new ClaimsPrincipal(claimsIdentity);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                claimsPrincipal
-            );
+                claimsPrincipal);
 
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(
+                "Index",
+                "Home");
         }
 
+
+        // =========================
+        // SIGN UP
+        // =========================
+
         [HttpPost]
-        public IActionResult SignUp(string email, string username, UserRole role, string password, string confirmPassword)
+        public IActionResult SignUp(
+            string email,
+            string username,
+            string password,
+            string confirmPassword)
         {
+            if (string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(password) ||
+                string.IsNullOrWhiteSpace(confirmPassword))
+            {
+                ViewBag.Error = "All fields are required.";
+
+                return View("Index");
+            }
+
+
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Passwords do not match!";
+
                 return View("Index");
             }
+
 
             if (_userService.GetUserByUsername(username) != null)
             {
                 ViewBag.Error = "Username already exists!";
+
                 return View("Index");
             }
+
+
+            if (_userService.GetUserByEmail(email) != null)
+            {
+                ViewBag.Error = "An account with this email already exists!";
+
+                return View("Index");
+            }
+
+
+            // =========================
+            // CREATE NEW USER
+            // =========================
 
             var newUser = new User
             {
                 Email = email,
                 Username = username,
-                Role = role,
-                Password = password
+
+                // NEW SIGNUPS ARE ALWAYS NORMAL USERS
+                Role = UserRole.User,
+
+                Status = UserStatus.Active
             };
 
-            _userService.AddUser(newUser);
+
+            // Hash the password through UserService
+            _userService.SetPassword(
+                newUser,
+                password);
+
 
             return RedirectToAction("Index");
         }
 
+
+        // =========================
+        // LOGOUT
+        // =========================
         
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme
-            );
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction(
+                "Index",
+                "Login");
         }
-        
+
+
+        // =========================
+        // FORGOT PASSWORD
+        // =========================
+
+        [HttpGet]
         public IActionResult ForgotPassword()
         {
+            ViewBag.Error = null;
+
             return View();
         }
-        
+
+
         [HttpPost]
         public IActionResult SendResetCode(string email)
         {
             var user = _userService.GetUserByEmail(email);
 
             if (user == null)
-                return Content("User not found");
+            {
+                ViewBag.Error = "No account was found with that email.";
 
-            byte[] secretKey = KeyGeneration.GenerateRandomKey(20);
+                return View("ForgotPassword");
+            }
 
-            var base32Secret = Base32Encoding.ToString(secretKey);
+
+            byte[] secretKey =
+                KeyGeneration.GenerateRandomKey(20);
+
+            var base32Secret =
+                Base32Encoding.ToString(secretKey);
 
             user.TotpSecret = base32Secret;
-            user.TotpGeneratedAt = DateTime.UtcNow;
+
+            user.TotpGeneratedAt =
+                DateTime.UtcNow;
 
             _userService.UpdateUser(user);
+
 
             var totp = new Totp(secretKey);
 
             var code = totp.ComputeTotp();
 
+
             TempData["ResetCode"] = code;
             TempData["ResetUserId"] = user.Id;
 
-            return RedirectToAction("VerifyResetCode");
+
+            return RedirectToAction(
+                "VerifyResetCode");
         }
-        
+
+
+        // =========================
+        // VERIFY RESET CODE
+        // =========================
+
+        [HttpGet]
         public IActionResult VerifyResetCode()
         {
             TempData.Keep("ResetUserId");
@@ -150,68 +263,130 @@ namespace BookieDookie.Controllers
 
             return View();
         }
-        
+
+
         [HttpPost]
-        public IActionResult VerifyResetCode(string code)
+        public IActionResult VerifyResetCode(
+            string code)
         {
-            var userIdObj = TempData["ResetUserId"];
+            var userIdObj =
+                TempData["ResetUserId"];
 
             if (userIdObj == null)
                 return Content("Reset session expired.");
 
-            var userId = Guid.Parse(userIdObj.ToString());
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var userId =
+                Guid.Parse(userIdObj.ToString()!);
 
-            if (user == null || user.TotpSecret == null)
-                return Content("Reset request not found.");
 
-            var secretKey = Base32Encoding.ToBytes(user.TotpSecret);
+            var user =
+                _context.Users.FirstOrDefault(
+                    u => u.Id == userId);
 
-            var totp = new Totp(secretKey);
 
-            bool valid = totp.VerifyTotp(code, out long timeWindowUsed);
+            if (user == null ||
+                user.TotpSecret == null)
+            {
+                return Content(
+                    "Reset request not found.");
+            }
+
+
+            var secretKey =
+                Base32Encoding.ToBytes(
+                    user.TotpSecret);
+
+            var totp =
+                new Totp(secretKey);
+
+
+            bool valid =
+                totp.VerifyTotp(
+                    code,
+                    out long timeWindowUsed);
+
 
             if (!valid)
-                return Content("Invalid or expired code");
+            {
+                return Content(
+                    "Invalid or expired code.");
+            }
 
-            TempData["ResetUserId"] = user.Id;
 
-            return RedirectToAction("ResetPassword");
+            TempData["ResetUserId"] =
+                user.Id;
+
+
+            return RedirectToAction(
+                "ResetPassword");
         }
-        
+
+
+        // =========================
+        // RESET PASSWORD
+        // =========================
+
+        [HttpGet]
         public IActionResult ResetPassword()
         {
             TempData.Keep("ResetUserId");
+
             return View();
         }
-        
+
+
         [HttpPost]
-        public IActionResult ResetPassword(string password, string confirmPassword)
+        public IActionResult ResetPassword(
+            string password,
+            string confirmPassword)
         {
             if (password != confirmPassword)
-                return Content("Passwords do not match");
+            {
+                return Content(
+                    "Passwords do not match.");
+            }
 
-            var userIdObj = TempData["ResetUserId"];
+
+            var userIdObj =
+                TempData["ResetUserId"];
 
             if (userIdObj == null)
-                return Content("Reset session expired.");
+            {
+                return Content(
+                    "Reset session expired.");
+            }
 
-            var userId = Guid.Parse(userIdObj.ToString());
 
-            var user = _userService.GetUserById(userId);
+            var userId =
+                Guid.Parse(userIdObj.ToString()!);
+
+
+            var user =
+                _userService.GetUserById(userId);
+
 
             if (user == null)
-                return Content("User not found.");
+            {
+                return Content(
+                    "User not found.");
+            }
 
-            user.Password = password;
+
+            _userService.SetPassword(
+                user,
+                password);
+
 
             user.TotpSecret = null;
             user.TotpGeneratedAt = null;
 
             _userService.UpdateUser(user);
 
-            return RedirectToAction("Index", "Login");
+
+            return RedirectToAction(
+                "Index",
+                "Login");
         }
     }
 }

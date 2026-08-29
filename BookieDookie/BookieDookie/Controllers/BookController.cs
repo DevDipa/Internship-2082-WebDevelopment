@@ -71,9 +71,28 @@ namespace BookieDookie.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Book book)
+        public async Task<IActionResult> Edit(Book book, IFormFile ImageFile)
         {
+            if (ImageFile != null)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
+
+                var path = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot/uploads",
+                    fileName
+                );
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageFile.CopyToAsync(stream);
+                }
+
+                book.ImageUrl = "/uploads/" + fileName;
+            }
+
             _bookService.UpdateBook(book);
+
             return RedirectToAction("Index");
         }
 

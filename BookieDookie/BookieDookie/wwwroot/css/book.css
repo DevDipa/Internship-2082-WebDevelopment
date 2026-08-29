@@ -32,6 +32,8 @@
 /*FOR THE BOOKSHELF*/
 .bookshelf-container {
     padding: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .books-grid {
@@ -84,5 +86,104 @@
     text-decoration: none;
 }
 
+/* EDIT BOOK */
+
+.edit-book-container {
+    width: 700px;
+}
+
+.edit-book-content {
+    display: flex;
+    gap: 35px;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
 
 
+/* LEFT SIDE */
+
+.book-details {
+    flex: 1;
+}
+
+.book-details input,
+.book-details textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.book-details textarea {
+    height: 120px;
+    resize: none;
+}
+
+
+/* RIGHT SIDE */
+
+.cover-section {
+    width: 230px;
+    padding: 15px;
+    background: #eee5df;
+    border-radius: 15px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.current-cover p,
+.replace-cover p {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.current-cover img {
+    width: 100px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.replace-cover {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.replace-cover input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+
+/* SAVE BUTTON */
+
+.edit-book-container button {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 20px;
+
+    background: #d8a48f;
+
+    color: white;
+
+    font-family: 'Allura', cursive;
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    transition: 0.3s ease;
+}

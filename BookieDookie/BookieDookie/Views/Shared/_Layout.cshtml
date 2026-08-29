@@ -90,6 +90,7 @@
     <!--Font Awesome Local Integration-->
     <!--adding all.min.css-->
     <link rel="stylesheet" href="~/lib/font-awesome/all.min.css"/>
+    @await RenderSectionAsync("Styles", required: false)
     
     <style>
         html, body {
@@ -99,7 +100,7 @@
         }
         
     </style>
-    
+   <!-- <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">-->
 </head>
 
 @*<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -849,37 +850,51 @@
             <i class="fas fa-book-open"></i>
             <span>BookieDookie</span>
         </div>
-
+        
         <nav class="sidebar-nav">
-            <a asp-controller="Home" asp-action="Index" class="nav-item active">
-                <i class="fas fa-house-chimney"></i>
-                <span>Home</span>
-            </a>
 
-            <a asp-controller="Book" asp-action="Index" class="nav-item">
-                <i class="fas fa-heart"></i>
-                <span>My Bookshelf</span>
-            </a>
+          <a asp-controller="Home"
+             asp-action="Index"
+             class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">
+            <i class="fas fa-house-chimney"></i>
+            <span>Home</span>
+          </a>
 
-            <a asp-controller="ReadingStats" asp-action="Index" class="nav-item">
-                <i class="fas fa-chart-area"></i>
-                <span>Reading Stats</span>
-            </a>
+          <a asp-controller="Book"
+             asp-action="Index"
+             class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Book" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
+            <i class="fas fa-heart"></i>
+            <span>My Bookshelf</span>
+          </a>
 
-            <a asp-controller="Book" asp-action="Create" class="nav-item">
-                <i class="fas fa-feather-pointed"></i>
-                <span>Add a Book</span>
-            </a>
+          <a asp-controller="ReadingStats"
+             asp-action="Index"
+             class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ReadingStats" ? "active" : "")">
+            <i class="fas fa-chart-area"></i>
+            <span>Reading Stats</span>
+          </a>
 
-            <a asp-controller="Profile" asp-action="Edit" class="nav-item">
-              <i class="fas fa-user-astronaut"></i>
-              <span>Profile</span>
-            </a>
-            
-            <a asp-controller="Login" asp-action="Logout" class="nav-item">
-              <i class="fas fa-plane-departure"></i>
-              <span>Log Out</span>
-            </a>
+          <a asp-controller="Book"
+             asp-action="Create"
+             class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Book" && ViewContext.RouteData.Values["Action"]?.ToString() == "Create" ? "active" : "")">
+            <i class="fas fa-feather-pointed"></i>
+            <span>Add a Book</span>
+          </a>
+
+          <a asp-controller="Profile"
+             asp-action="Edit"
+             class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Profile" ? "active" : "")">
+            <i class="fas fa-user-astronaut"></i>
+            <span>Profile</span>
+          </a>
+
+          <a asp-controller="Login"
+             asp-action="Logout"
+             class="nav-item">
+            <i class="fas fa-plane-departure"></i>
+            <span>Log Out</span>
+          </a>
+
         </nav>
     </aside>
 

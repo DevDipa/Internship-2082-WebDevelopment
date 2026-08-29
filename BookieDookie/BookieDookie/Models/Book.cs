@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookieDookie.Models
 {
@@ -22,8 +21,15 @@ namespace BookieDookie.Models
         public string ImageUrl { get; set; }
 
         public Guid UserId { get; set; }
-        
-        //navigation property that lets EF Core automatically load the related user
+
+        // Soft deletion
+        public bool IsDeleted { get; set; } = false;
+
+        public DateTime? DeletedAt { get; set; }
+
+        public Guid? DeletedBy { get; set; }
+
+        // Navigation property
         public User User { get; set; }
     }
 }

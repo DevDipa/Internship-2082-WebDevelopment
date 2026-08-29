@@ -18,10 +18,18 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // User → Books relationship
         modelBuilder.Entity<Book>()
             .HasOne(b => b.User)
             .WithMany(u => u.Books)
             .HasForeignKey(b => b.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // User → ReadingStats relationship
+        modelBuilder.Entity<ReadingStats>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Permission Denied";
+}
+
+<link rel="stylesheet"
+      href="~/css/profile.css"
+      asp-append-version="true" />
+
+<div class="profile-container">
+
+    <div class="profile-card access-denied-card">
+
+        <h2>Permission Denied</h2>
+
+        <p class="denied-icon">🚫</p>
+
+        <p class="denied-message">
+            You do not have permission to perform this action.
+        </p>
+
+        <p class="denied-submessage">
+            Only the Administrator can activate or deactivate user accounts.
+        </p>
+
+        <a asp-controller="Profile"
+           asp-action="Edit"
+           class="main-btn back-btn">
+
+            Back to Profile
+
+        </a>
+
+    </div>
+
+</div>

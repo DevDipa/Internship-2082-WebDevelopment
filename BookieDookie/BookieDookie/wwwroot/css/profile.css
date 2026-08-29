@@ -1,175 +1,369 @@
-﻿.profile-container {
+﻿/* =========================================================
+   BOOKIEDOOKIE PROFILE
+   ========================================================= */
+
+.profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
+
     min-height: 90vh;
 }
 
+
+/* =========================================================
+   PROFILE CARD
+   ========================================================= */
+
 .profile-card {
+    box-sizing: border-box;
+
     background: #f4eee9;
+
     padding: 40px;
+
     width: 400px;
+
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
     text-align: center;
+
     font-family: 'Allura', cursive;
+
     font-size: 20px;
 }
 
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
 .profile-card h2 {
+    margin-top: 0;
     margin-bottom: 20px;
+
     color: #5b4636;
 }
 
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
 .profile-card input {
+    box-sizing: border-box;
+
     width: 100%;
+
     padding: 12px;
+
     margin: 10px 0;
+
     border-radius: 10px;
+
     border: 1px solid #ddd;
+
+    background: #fff;
+
+    font-family: 'Allura', cursive;
     font-size: 20px;
+
+    color: #5b4636;
 }
 
-.main-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 20px;
-    background: #d8a48f;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 20px;
-    transition: 0.3s ease;
+
+.profile-card input:focus {
+    outline: none;
+
+    border-color: #d8a48f;
+
+    box-shadow:
+            0 0 0 2px rgba(216, 164, 143, 0.15);
 }
 
-.main-btn:hover {
-    background: #c98f7a;
-    transform: scale(1.02);
-}
 
-/* STATUS TEXT */
+/* =========================================================
+   STATUS
+   ========================================================= */
 
 .status-text {
     margin-bottom: 20px;
-    font-size: 18px;
+
+    font-family: 'Allura', cursive;
+    font-size: 20px;
+
     color: #6b4f4f;
 }
 
+
 .status-badge {
+    display: inline-block;
+
     padding: 6px 14px;
+
     border-radius: 20px;
-    font-size: 16px;
+
+    font-size: 14px;
+
     font-weight: bold;
+
     margin-left: 8px;
 }
 
+
 .active-status {
     background-color: #d4edda;
+
     color: #2f6b3f;
 }
 
+
 .inactive-status {
     background-color: #f8d7da;
+
     color: #842029;
 }
 
-/* SPACING FIX */
-.toggle-form {
-    margin-top: 25px;
-}
 
-/* TOGGLE BUTTON BASE */
-.profile-card .toggle-btn {
+/* =========================================================
+   MAIN BUTTON
+   ========================================================= */
+
+.profile-card .main-btn {
+    box-sizing: border-box;
+
     width: 100%;
+
     padding: 12px;
+
     border: none;
+
     border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
+
+    background: #d8a48f;
+
+    color: white;
+
+    font-family: 'Allura', cursive;
     font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
     transition: 0.3s ease;
 }
 
-/* DEACTIVATE (soft red) */
-.profile-card .deactivate-btn {
-    background-color: #c97a7a !important;
-    color: white !important;
+
+.profile-card .main-btn:hover {
+    background: #c98f7a;
+
+    transform: scale(1.02);
 }
+
+
+.profile-card .main-btn:active {
+    transform: scale(0.99);
+}
+
+
+/* =========================================================
+   PROFILE INFORMATION
+   ========================================================= */
+
+.profile-info {
+    font-family: 'Segoe UI', sans-serif;
+
+    font-size: 13px;
+
+    color: #7b6b5e;
+
+    margin-top: 18px;
+
+    line-height: 1.5;
+}
+
+
+.profile-info a {
+    color: #8f6f5c;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.profile-info a:hover {
+    color: #5b4636;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   SUCCESS / ERROR MESSAGES
+   ========================================================= */
+
+.profile-message {
+    font-family: 'Segoe UI', sans-serif;
+
+    font-size: 14px;
+
+    margin-bottom: 15px;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+}
+
+
+.error-message {
+    color: #b00020;
+
+    background: #fce8eb;
+}
+
+
+.success-message {
+    color: #2f6b3f;
+
+    background: #e7f4ea;
+}
+
+/* =========================================================
+   DEACTIVATE ACCOUNT
+   ========================================================= */
+
+.deactivate-form {
+    margin-top: 25px;
+}
+
+
+.profile-card .deactivate-btn {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 20px;
+
+    background: #c97a7a;
+
+    color: white;
+
+    font-family: 'Allura', cursive;
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
 
 .profile-card .deactivate-btn:hover {
-    background-color: #b86666 !important;
-    transform: scale(1.02);
-}
-
-/* ACTIVATE (soft green) */
-.profile-card .activate-btn {
-    background-color: #8fbf9f !important;
-    color: white !important;
-}
-
-.profile-card .activate-btn:hover {
-    background-color: #7aac8d !important;
-    transform: scale(1.02);
-}
-
-/* DEACTIVATE (soft red) */
-.deactivate-btn {
-    background: #c97a7a;
-    color: white;
-}
-
-.deactivate-btn:hover {
     background: #b86666;
-    transform: scale(1.02);
-}
 
-/* ACTIVATE (soft green) */
-.activate-btn {
-    background: #8fbf9f;
-    color: white;
-}
-
-.activate-btn:hover {
-    background: #7aac8d;
     transform: scale(1.02);
 }
 
 
-/*DELETE BUTTON*/
+.profile-card .deactivate-btn:active {
+    transform: scale(0.99);
+}
+
+/* =========================================================
+   DELETE ACCOUNT
+   ========================================================= */
+
 .delete-form {
     margin-top: 25px;
 }
 
-/* DELETE BUTTON BASE */
+
 .profile-card .delete-btn {
+    box-sizing: border-box;
+
     width: 100%;
+
     padding: 12px;
+
     border: none;
+
     border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
+
+    background: #c97a7a;
+
+    color: white;
+
+    font-family: 'Allura', cursive;
     font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
     transition: 0.3s ease;
 }
 
-.profile-card .delete-btn {
-    background-color: #c97a7a !important;
-    color: white !important;
-}
 
 .profile-card .delete-btn:hover {
-    background-color: #b86666 !important;
-    transform: scale(1.02);
-}
-
-.delete-btn {
-    background: #c97a7a;
-    color: white;
-}
-
-.delete-btn:hover {
     background: #b86666;
+
     transform: scale(1.02);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+    .profile-card {
+        width: calc(100vw - 30px);
+
+        padding: 30px 25px;
+    }
+}
+
+/*Access Denied page thingy*/
+/* =========================================================
+   ACCESS DENIED
+   ========================================================= */
+
+.access-denied-card {
+    width: 400px;
+}
+
+.denied-icon {
+    font-size: 50px;
+    margin: 10px 0;
+}
+
+.denied-message {
+    font-size: 22px;
+    color: #5b4636;
+    margin: 15px 0 8px;
+}
+
+.denied-submessage {
+    font-size: 17px;
+    color: #7b6b5e;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.back-btn {
+    display: block;
+    text-decoration: none;
+    box-sizing: border-box;
 }
