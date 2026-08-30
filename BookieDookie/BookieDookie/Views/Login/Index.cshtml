@@ -27,9 +27,7 @@ Layout = null;
         <h1>BookieDookie</h1>
 
 
-        <!-- =========================
-        LOGIN FORM
-        ========================= -->
+        <!-- Login Form-->
 
         <form id="loginForm"
               method="post"
@@ -81,9 +79,7 @@ Layout = null;
 
 
 
-        <!-- =========================
-        SIGNUP FORM
-        ========================= -->
+        <!--Signup Form-->
 
         <form id="signupForm"
               method="post"
@@ -154,9 +150,7 @@ Layout = null;
         </form>
 
 
-        <!-- =========================
-        ERROR MESSAGE
-        ========================= -->
+        <!--Error Run Run Run-->
 
         @if (ViewBag.Error != null)
         {
@@ -172,9 +166,7 @@ Layout = null;
 
 <script>
 
-    /* =========================
-       PASSWORD EYE TOGGLE
-       ========================= */
+    /* eye-ish*/
 
     function togglePassword(inputId, icon) {
 
@@ -201,11 +193,7 @@ Layout = null;
         }
     }
 
-
-
-    /* =========================
-       SHOW LOGIN
-       ========================= */
+    
 
     function showLogin() {
 
@@ -218,12 +206,7 @@ Layout = null;
         clearError();
         clearForms();
     }
-
-
-
-    /* =========================
-       SHOW SIGNUP
-       ========================= */
+    
 
     function showSignup() {
 
@@ -238,22 +221,12 @@ Layout = null;
     }
 
 
-
-    /* =========================
-       FORGOT PASSWORD
-       ========================= */
-
     function showForgotPassword() {
 
         window.location.href =
             "/Login/ForgotPassword";
     }
-
-
-
-    /* =========================
-       CLEAR ERROR
-       ========================= */
+    
 
     function clearError() {
 
@@ -265,12 +238,7 @@ Layout = null;
         }
     }
 
-
-
-    /* =========================
-       CLEAR FORM FIELDS
-       ========================= */
-
+    
     function clearForms() {
 
         document.getElementById("loginForm").reset();
@@ -297,11 +265,6 @@ Layout = null;
         });
     }
 
-
-
-    /* =========================
-       SIGNUP PASSWORD VALIDATION
-       ========================= */
 
     document.getElementById("signupForm")
         .addEventListener("submit", function (event) {
@@ -355,10 +318,6 @@ Layout = null;
         });
 
 
-
-    /* =========================
-       SHOW PASSWORD ERROR
-       ========================= */
 
     function showPasswordError(message) {
 

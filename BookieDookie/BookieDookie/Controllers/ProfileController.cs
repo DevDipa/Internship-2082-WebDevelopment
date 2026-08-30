@@ -16,10 +16,7 @@ namespace BookieDookie.Controllers
             _userService = userService;
         }
 
-
-        // =========================================================
-        // EDIT PROFILE PAGE
-        // =========================================================
+//Edit profile page
 
         [HttpGet]
         public IActionResult Edit()
@@ -41,10 +38,7 @@ namespace BookieDookie.Controllers
             return View(user);
         }
 
-
-        // =========================================================
-        // UPDATE EMAIL + USERNAME
-        // =========================================================
+//Update email and username
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -67,9 +61,7 @@ namespace BookieDookie.Controllers
             }
 
 
-            // -----------------------------------------------------
-            // BASIC VALIDATION
-            // -----------------------------------------------------
+            //Thoda bahot validation
 
             if (string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrWhiteSpace(username))
@@ -81,10 +73,7 @@ namespace BookieDookie.Controllers
             }
 
 
-            // -----------------------------------------------------
-            // CHECK USERNAME DUPLICATE
-            // -----------------------------------------------------
-
+            //Duplicate names checked
             var usernameUser =
                 _userService.GetUserByUsername(username);
 
@@ -98,9 +87,7 @@ namespace BookieDookie.Controllers
             }
 
 
-            // -----------------------------------------------------
-            // CHECK EMAIL DUPLICATE
-            // -----------------------------------------------------
+            //Duplicate email 
 
             var emailUser =
                 _userService.GetUserByEmail(email);
@@ -115,9 +102,7 @@ namespace BookieDookie.Controllers
             }
 
 
-            // -----------------------------------------------------
-            // ONLY EMAIL + USERNAME CAN BE CHANGED HERE
-            // -----------------------------------------------------
+           //Change
 
             existingUser.Email = email;
             existingUser.Username = username;
@@ -131,10 +116,7 @@ namespace BookieDookie.Controllers
             return RedirectToAction("Edit");
         }
 
-
-        // =========================================================
-        // DELETE OWN ACCOUNT
-        // =========================================================
+//A/c deletion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -170,9 +152,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================================================
-        // ADMIN ONLY: TOGGLE USER STATUS
-        // =========================================================
+        //Admin le matra garna milne
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -186,8 +166,7 @@ namespace BookieDookie.Controllers
                 return NotFound();
             }
 
-
-            // Only Admin can activate/deactivate accounts.
+            
             _userService.ToggleStatus(id);
 
 
@@ -197,9 +176,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================================================
-        // ACCESS DENIED PAGE
-        // =========================================================
+     //Access Denied means Go back!!!
 
         [HttpGet]
         public IActionResult AccessDenied()

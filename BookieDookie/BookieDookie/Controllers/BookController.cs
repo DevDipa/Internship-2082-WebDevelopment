@@ -22,9 +22,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // ==========================================
-        // CURRENT LOGGED-IN USER
-        // ==========================================
+        /*Aile kun User ho*/
 
         private Guid? GetCurrentUserId()
         {
@@ -37,9 +35,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // ==========================================
-        // BOOKSHELF
-        // ==========================================
+        /*The Book ko Ryak*/
 
         public IActionResult Index()
         {
@@ -54,9 +50,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // ==========================================
-        // CREATE BOOK
-        // ==========================================
+        /*Book Creation*/
 
         [HttpGet]
         public IActionResult Create()
@@ -113,9 +107,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // ==========================================
-        // EDIT BOOK
-        // ==========================================
+        /*Edit Book*/
 
         [HttpGet]
         public IActionResult Edit(Guid id)
@@ -131,8 +123,7 @@ namespace BookieDookie.Controllers
             if (book == null)
                 return NotFound();
 
-            // Make sure this book belongs
-            // to the currently logged-in user.
+            // Making sure this book belong to the currently logged-in user*/
             if (book.UserId != userId.Value)
                 return Forbid();
 
@@ -157,8 +148,7 @@ namespace BookieDookie.Controllers
             if (existingBook == null)
                 return NotFound();
 
-            // Prevent one user from editing
-            // another user's book.
+            // Prevent one user from editing another user's book.
             if (existingBook.UserId != userId.Value)
                 return Forbid();
 
@@ -177,8 +167,7 @@ namespace BookieDookie.Controllers
                 book.Description;
 
 
-            // Replace cover only if a new image
-            // has actually been uploaded.
+            // Replace cover only if a new image has actually been uploaded.
             if (ImageFile != null)
             {
                 var fileName =
@@ -217,9 +206,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // ==========================================
-        // DELETE BOOK
-        // ==========================================
+        /*Delete book*/
 
         [HttpPost]
         public IActionResult Delete(Guid id)
@@ -235,8 +222,7 @@ namespace BookieDookie.Controllers
             if (book == null)
                 return NotFound();
 
-            // Normal users can only delete
-            // their own books.
+            // We let normal users delete their own books.
             if (book.UserId != userId.Value)
             {
                 var role =

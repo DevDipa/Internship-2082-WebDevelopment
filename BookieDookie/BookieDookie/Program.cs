@@ -8,16 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==========================================
-// MVC
-// ==========================================
+//Hamro pyaro MVC
 
 builder.Services.AddControllersWithViews();
 
-
-// ==========================================
-// SESSION
-// ==========================================
+//Session thingy
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -28,28 +23,19 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-
-// ==========================================
-// DATABASE
-// ==========================================
+//Biwi ki DB
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString(
             "DefaultConnection")));
 
-
-// ==========================================
-// DEPENDENCY INJECTION
-// ==========================================
+//The strict DI
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookService, BookService>();
 
-
-// ==========================================
-// AUTHENTICATION
-// ==========================================
+//The first A: Authentication
 
 builder.Services
     .AddAuthentication(
@@ -58,8 +44,7 @@ builder.Services
     {
         options.LoginPath = "/Login";
 
-        // Users who fail an authorization requirement
-        // are redirected here.
+        // Users who fail an authorization requirement are redirected here.
         options.AccessDeniedPath = "/Profile/AccessDenied";
 
         options.ExpireTimeSpan =
@@ -71,23 +56,15 @@ builder.Services
         options.Cookie.IsEssential = true;
     });
 
-
-// ==========================================
-// AUTHORIZATION
-// ==========================================
+//The second A: Authorization
 
 builder.Services.AddAuthorization();
 
-
-// ==========================================
-// BUILD APP
-// ==========================================
+//Let's build the appieeeee now:)
 
 var app = builder.Build();
 
-// ==========================================
-// DATABASE MIGRATION
-// ==========================================
+//Siberian birds migrate now!!!
 
 using (var scope = app.Services.CreateScope())
 {
@@ -142,16 +119,11 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// ==========================================
-// SERVER URL
-// ==========================================
+//URL de, Bhai
 
 app.Urls.Add("http://0.0.0.0:5026");
 
-
-// ==========================================
-// HTTP PIPELINE
-// ==========================================
+//HTTP
 
 if (!app.Environment.IsDevelopment())
 {
@@ -176,9 +148,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-// ==========================================
-// DEFAULT ROUTE
-// ==========================================
+//Hami hinne default baato
 
 app.MapControllerRoute(
     name: "default",

@@ -16,16 +16,12 @@ namespace BookieDookie.Controllers
             _context = context;
         }
 
-        // ==========================================
-        // ADMIN DASHBOARD
-        // ==========================================
+        /*Admin Dashboard, Bruh!*/
 
         [HttpGet]
         public IActionResult Index()
         {
-            // =========================
-            // USERS
-            // =========================
+            /*Users*/
 
             var totalUsers = _context.Users
                 .Count(u => !u.IsDeleted);
@@ -40,16 +36,12 @@ namespace BookieDookie.Controllers
                     !u.IsDeleted &&
                     u.Status == UserStatus.Inactive);
 
-            // =========================
-            // BOOKS
-            // =========================
+            /*Bools*/
 
             var totalBooks = _context.Books
                 .Count(b => !b.IsDeleted);
 
-            // =========================
-            // READING STATISTICS
-            // =========================
+            /*Reading Stats*/
 
             var totalPagesRead = _context.ReadingStats
                 .Sum(s => (int?)s.TotalPagesRead) ?? 0;
@@ -62,16 +54,12 @@ namespace BookieDookie.Controllers
                     1)
                 : 0;
 
-            // =========================
-            // ADMIN INFORMATION
-            // =========================
+            /*Admin Info*/
 
             var adminUsername =
                 User.Identity?.Name ?? "Administrator";
 
-            // =========================
-            // USER OVERVIEW
-            // =========================
+            /*User Overview deko*/
 
             var users = _context.Users
                 .Where(u => !u.IsDeleted)
@@ -102,9 +90,7 @@ namespace BookieDookie.Controllers
                 })
                 .ToList();
 
-            // =========================
-            // VIEW BAG DATA
-            // =========================
+            /*Baggy baggy view bag*/
 
             ViewBag.TotalUsers = totalUsers;
             ViewBag.ActiveUsers = activeUsers;
@@ -119,9 +105,7 @@ namespace BookieDookie.Controllers
             return View(users);
         }
         
-// ==========================================
-// ADMIN USERS
-// ==========================================
+/*Admin le dekhne Users*/
 
 [HttpGet]
 public IActionResult Users()
@@ -159,9 +143,7 @@ public IActionResult Users()
 }
 
 
-// ==========================================
-// ACTIVATE / DEACTIVATE USER
-// ==========================================
+/*Activate/Deactivate Users*/
 
 [HttpPost]
 [ValidateAntiForgeryToken]
@@ -194,9 +176,7 @@ public IActionResult ToggleUserStatus(Guid id)
 }
 
 
-// ==========================================
-// DELETE USER
-// ==========================================
+/*Delete Users*/
 
 [HttpPost]
 [ValidateAntiForgeryToken]

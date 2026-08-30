@@ -24,9 +24,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // =========================
-        // USER → BOOKS
-        // =========================
+        //User -> Books
 
         modelBuilder.Entity<Book>()
             .HasOne(b => b.User)
@@ -35,10 +33,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        // =========================
-        // USER → READING STATS
-        // =========================
-
+        //User -> Reading Stats
         modelBuilder.Entity<ReadingStats>()
             .HasOne(r => r.User)
             .WithMany()
@@ -46,10 +41,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        // =========================
-        // USER → READING HISTORY
-        // =========================
-
+        //User -> Reading History
         modelBuilder.Entity<ReadingHistory>()
             .HasOne(h => h.User)
             .WithMany()
@@ -57,10 +49,7 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
 
-        // =========================
-        // ONE HISTORY RECORD
-        // PER USER PER DAY
-        // =========================
+        //One history record per day per user
 
         modelBuilder.Entity<ReadingHistory>()
             .HasIndex(h => new

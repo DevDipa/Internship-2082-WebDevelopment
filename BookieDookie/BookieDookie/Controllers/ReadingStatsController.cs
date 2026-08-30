@@ -15,10 +15,7 @@ namespace BookieDookie.Controllers
             _context = context;
         }
 
-
-        // =========================
-        // READING STATS PAGE
-        // =========================
+//Reading stats
 
         public IActionResult Index()
         {
@@ -59,10 +56,7 @@ namespace BookieDookie.Controllers
             return View(stats);
         }
 
-
-        // =========================
-        // UPDATE PAGES
-        // =========================
+//Update pages
 
         [HttpPost]
         public IActionResult UpdatePages(int pages)
@@ -79,25 +73,16 @@ namespace BookieDookie.Controllers
                 return BadRequest("Reading stats not found.");
 
 
-            // =========================
-            // DATE INFORMATION
-            // =========================
+         //Date
 
             var today = DateTime.UtcNow.Date;
 
 
-            // =========================
-            // PREVENT NEGATIVE VALUES
-            // =========================
+           //No negative values
 
             if (pages < 0)
                 pages = 0;
-
-
-            // =========================
-            // FIRST READING ACTIVITY
-            // =========================
-
+            
             if (stats.LastReadingDate == null)
             {
                 if (pages > 0)
@@ -108,10 +93,6 @@ namespace BookieDookie.Controllers
             }
 
 
-            // =========================
-            // READING ACTIVITY EXISTS
-            // =========================
-
             else
             {
                 var lastReadingDate =
@@ -120,14 +101,10 @@ namespace BookieDookie.Controllers
                 var daysSinceLastReading =
                     (today - lastReadingDate).Days;
 
-
-                // ---------------------------------
-                // SAME DAY
-                // ---------------------------------
+//same day logic
 
                 if (daysSinceLastReading == 0)
                 {
-                    // Same-day updates do NOT increase streak.
 
                     int difference =
                         pages - stats.PagesReadToday;
@@ -137,15 +114,9 @@ namespace BookieDookie.Controllers
                     stats.PagesReadToday = pages;
                 }
 
-
-                // ---------------------------------
-                // EXACTLY ONE DAY LATER
-                // ---------------------------------
-
                 else if (daysSinceLastReading == 1)
                 {
                     // A new reading day.
-                    // Increase streak only if pages > 0.
 
                     if (pages > 0)
                     {
@@ -157,15 +128,10 @@ namespace BookieDookie.Controllers
                     stats.PagesReadToday = pages;
                 }
 
-
-                // ---------------------------------
-                // MISSED ONE OR MORE DAYS
-                // ---------------------------------
+//streak break
 
                 else
                 {
-                    // User missed at least one complete day.
-                    // Streak starts again from 1.
 
                     if (pages > 0)
                     {
@@ -181,11 +147,7 @@ namespace BookieDookie.Controllers
                     stats.PagesReadToday = pages;
                 }
             }
-
-
-            // =========================
-            // GENERAL UPDATE TIME
-            // =========================
+            
 
             stats.LastUpdated = DateTime.UtcNow;
 
@@ -196,10 +158,7 @@ namespace BookieDookie.Controllers
             return RedirectToAction("Index");
         }
 
-
-        // =========================
-        // UPDATE BOOKMARK
-        // =========================
+//Bookmark
 
         [HttpPost]
         public IActionResult UpdateBookmark(string book, int page)
@@ -226,9 +185,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================
-        // UPDATE FEELING
-        // =========================
+        //Feeling update
 
         [HttpPost]
         public IActionResult UpdateFeeling(string feeling)

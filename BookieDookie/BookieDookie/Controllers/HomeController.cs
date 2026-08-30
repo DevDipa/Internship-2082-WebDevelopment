@@ -39,18 +39,14 @@ namespace BookieDookie.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            // =========================
-            // USER'S BOOKS
-            // =========================
+            /*Users ko books*/
 
             var booksRead = _context.Books
                 .Count(b =>
                     b.UserId == userId &&
                     !b.IsDeleted);
 
-            // =========================
-            // USER'S READING STATS
-            // =========================
+            /*Users ko Stats*/
 
             var stats = _context.ReadingStats
                 .FirstOrDefault(s =>
@@ -72,9 +68,7 @@ namespace BookieDookie.Controllers
             ViewBag.TotalPages = totalPages;
             ViewBag.Streak = streak;
 
-            // =========================
-            // GREETING
-            // =========================
+            /*Namaskar*/
 
             int hour = DateTime.Now.Hour;
             string greeting;

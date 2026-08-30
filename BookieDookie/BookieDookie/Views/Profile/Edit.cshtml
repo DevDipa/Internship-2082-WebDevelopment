@@ -15,9 +15,7 @@
         <h2>Edit Profile</h2>
 
 
-        <!-- =====================================================
-             ACCOUNT STATUS
-             ===================================================== -->
+        <!--A/c Status-->
 
         <p class="status-text">
             Status:
@@ -32,9 +30,7 @@
         </p>
 
 
-        <!-- =====================================================
-             PROFILE MESSAGES
-             ===================================================== -->
+        <!-- Profile ma aune messages-->
 
         @if (TempData["ProfileError"] != null)
         {
@@ -52,10 +48,7 @@
         }
 
 
-        <!-- =====================================================
-             EDIT PROFILE
-             ONLY EMAIL + USERNAME
-             ===================================================== -->
+        <!-- Edit on Profile-->
 
         <form asp-action="Edit"
               asp-controller="Profile"
@@ -85,10 +78,6 @@
         </form>
 
 
-        <!-- =====================================================
-             DEACTIVATE / ACTIVATE ACCOUNT
-             ADMIN ONLY ACTION
-             ===================================================== -->
         <br/>
         <form asp-action="ToggleStatus"
               asp-controller="Profile"
@@ -114,11 +103,7 @@
 
         </form>
 
-
-        <!-- =====================================================
-             DELETE ACCOUNT
-             ===================================================== -->
-
+        
         <form asp-action="DeleteAccount"
               asp-controller="Profile"
               method="post"
@@ -135,11 +120,7 @@
             </button>
 
         </form>
-
-
-        <!-- =====================================================
-             PASSWORD INFORMATION
-             ===================================================== -->
+        
 
         <p class="profile-info">
 

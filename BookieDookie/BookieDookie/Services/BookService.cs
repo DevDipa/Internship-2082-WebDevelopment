@@ -15,9 +15,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // GET ALL BOOKS
-        // ==========================================
+        //Getting all the books
 
         public List<Book> GetAllBooks()
         {
@@ -27,9 +25,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // GET BOOK BY ID
-        // ==========================================
+       //Get the book by its Id
 
         public Book? GetBookById(Guid id)
         {
@@ -40,9 +36,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // GET BOOKS BELONGING TO ONE USER
-        // ==========================================
+        //Getting all the books belonging to a User
 
         public List<Book> GetBooksByUser(Guid userId)
         {
@@ -55,9 +49,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // ADD BOOK
-        // ==========================================
+        //Adding a book
 
         public void AddBook(
             Book book,
@@ -71,9 +63,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // UPDATE BOOK
-        // ==========================================
+        //Updating the book
 
         public void UpdateBook(Book book)
         {
@@ -83,9 +73,7 @@ namespace BookieDookie.Services
         }
 
 
-        // ==========================================
-        // DELETE BOOK
-        // ==========================================
+        //Deleting the book
 
         public void DeleteBook(Guid id)
         {

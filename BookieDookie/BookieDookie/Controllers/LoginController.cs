@@ -24,9 +24,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================
-        // LOGIN PAGE
-        // =========================
+      //Login Page
 
         [HttpGet]
         public IActionResult Index()
@@ -36,11 +34,7 @@ namespace BookieDookie.Controllers
             return View();
         }
 
-
-        // =========================
-        // LOGIN
-        // =========================
-
+        //Login Action
         [HttpPost]
         public async Task<IActionResult> Login(
             string username,
@@ -71,10 +65,7 @@ namespace BookieDookie.Controllers
                 return View("Index");
             }
 
-
-            // =========================
-            // AUTHENTICATION COOKIE
-            // =========================
+//Authentication Cookie
 
             var claims = new List<Claim>
             {
@@ -115,10 +106,7 @@ namespace BookieDookie.Controllers
                 "Home");
         }
 
-
-        // =========================
-        // SIGN UP
-        // =========================
+//Signup form
 
         [HttpPost]
         public IActionResult SignUp(
@@ -138,9 +126,7 @@ namespace BookieDookie.Controllers
             }
 
 
-            // =========================
-            // PASSWORD VALIDATION
-            // =========================
+            //Password validation
 
             if (!IsValidPassword(password))
             {
@@ -176,16 +162,14 @@ namespace BookieDookie.Controllers
             }
 
 
-            // =========================
-            // CREATE NEW USER
-            // =========================
+            //New user creation
 
             var newUser = new User
             {
                 Email = email,
                 Username = username,
 
-                // NEW SIGNUPS ARE ALWAYS NORMAL USERS
+                // as Users, ofc
                 Role = UserRole.User,
 
                 Status = UserStatus.Active
@@ -201,10 +185,7 @@ namespace BookieDookie.Controllers
             return RedirectToAction("Index");
         }
 
-
-        // =========================
-        // LOGOUT
-        // =========================
+//Logout
 
         public async Task<IActionResult> Logout()
         {
@@ -219,9 +200,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================
-        // FORGOT PASSWORD
-        // =========================
+        //Forgot Password
 
         [HttpGet]
         public IActionResult ForgotPassword()
@@ -274,9 +253,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================
-        // VERIFY RESET CODE
-        // =========================
+        //Verify reset code
 
         [HttpGet]
         public IActionResult VerifyResetCode()
@@ -345,9 +322,7 @@ namespace BookieDookie.Controllers
         }
 
 
-        // =========================
-        // RESET PASSWORD
-        // =========================
+        //Reset password
 
         [HttpGet]
         public IActionResult ResetPassword()
@@ -418,10 +393,7 @@ namespace BookieDookie.Controllers
                 "Login");
         }
 
-
-        // =========================
-        // PASSWORD VALIDATION
-        // =========================
+//Password validation
 
         private bool IsValidPassword(string password)
         {
