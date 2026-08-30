@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - BookieDookie</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Main Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet"
+          href="~/css/admin.css"
+          asp-append-version="true" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="~/lib/font-awesome/all.min.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+
+</head>
+
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ==========================================
+         ADMIN SIDEBAR
+         ========================================== -->
+
+    <aside class="sidebar">
+
+        <!-- LOGO -->
+
+        <div class="sidebar-logo">
+
+            <i class="fas fa-book-open"></i>
+
+            <span>BookieDookie</span>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <!-- HOME -->
+
+            <a asp-controller="Admin"
+               asp-action="Index"
+               class="nav-item">
+
+                <i class="fas fa-house-chimney"></i>
+
+                <span>Home</span>
+
+            </a>
+
+
+            <!-- USERS -->
+
+            <a asp-controller="Admin"
+               asp-action="Users"
+               class="nav-item">
+
+                <i class="fas fa-users"></i>
+
+                <span>Users</span>
+
+            </a>
+
+
+            <!-- BOOKS -->
+
+            <a asp-controller="Admin"
+               asp-action="Books"
+               class="nav-item">
+
+                <i class="fas fa-book"></i>
+
+                <span>Books</span>
+
+            </a>
+
+
+            <!-- READING STATS -->
+
+            <a asp-controller="Admin"
+               asp-action="ReadingStats"
+               class="nav-item">
+
+                <i class="fas fa-chart-area"></i>
+
+                <span>Reading Stats</span>
+
+            </a>
+
+
+            <!-- SETTINGS -->
+
+            <a asp-controller="Admin"
+               asp-action="Settings"
+               class="nav-item">
+
+                <i class="fas fa-gear"></i>
+
+                <span>Settings</span>
+
+            </a>
+
+
+            <!-- LOG OUT -->
+
+            <a asp-controller="Login"
+               asp-action="Logout"
+               class="nav-item">
+
+                <i class="fas fa-plane-departure"></i>
+
+                <span>Log Out</span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+         ========================================== -->
+
+    <div class="main-content">
+
+        @RenderBody()
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     FOOTER
+     ========================================== -->
+
+<footer class="footer text-muted">
+
+    &copy; 2026 - BookieDookie | Dipaak
+
+</footer>
+
+
+<!-- ==========================================
+     SCRIPTS
+     ========================================== -->
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"
+        asp-append-version="true"></script>
+
+<script src="~/lib/font-awesome/all.min.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

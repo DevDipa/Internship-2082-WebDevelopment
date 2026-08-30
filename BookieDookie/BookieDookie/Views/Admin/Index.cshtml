@@ -1,0 +1,471 @@
+﻿@model List<BookieDookie.Controllers.AdminUserViewModel>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<link rel="stylesheet"
+      href="~/css/admin.css"
+      asp-append-version="true" />
+
+
+<div class="admin-dashboard">
+
+    <!-- ==========================================
+         HEADER
+         ========================================== -->
+
+    <div class="admin-header">
+
+        <div class="admin-heading">
+
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Welcome back, @ViewBag.AdminUsername.
+                Here's the little universe of books at a glance.
+            </p>
+
+        </div>
+
+
+        <div class="admin-badge">
+
+            <i class="fas fa-shield-halved"></i>
+
+            <div>
+                <strong>Administrator</strong>
+                <span>Full platform access</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         PLATFORM STATISTICS
+         ========================================== -->
+
+    <div class="admin-stats-grid">
+
+
+        <!-- USERS -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Total Users</span>
+
+                <strong>
+                    @ViewBag.TotalUsers
+                </strong>
+
+                <small>
+                    Registered readers
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVE USERS -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Active Users</span>
+
+                <strong>
+                    @ViewBag.ActiveUsers
+                </strong>
+
+                <small>
+                    Currently active
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- INACTIVE USERS -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-user-slash"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Inactive Users</span>
+
+                <strong>
+                    @ViewBag.InactiveUsers
+                </strong>
+
+                <small>
+                    Deactivated accounts
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- BOOKS -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-book"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Total Books</span>
+
+                <strong>
+                    @ViewBag.TotalBooks
+                </strong>
+
+                <small>
+                    Across all bookshelves
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAGES -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-file-lines"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Pages Read</span>
+
+                <strong>
+                    @ViewBag.TotalPagesRead
+                </strong>
+
+                <small>
+                    Platform-wide total
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- STREAK -->
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="fas fa-fire"></i>
+            </div>
+
+            <div class="admin-stat-info">
+
+                <span>Average Streak</span>
+
+                <strong>
+                    @ViewBag.AverageStreak
+                </strong>
+
+                <small>
+                    Days per reader
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         USER OVERVIEW
+         ========================================== -->
+
+    <div class="admin-section-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    THE READERS
+                </span>
+
+                <h2>User Overview</h2>
+
+            </div>
+
+            <span class="user-count">
+                @Model.Count reader@(Model.Count == 1 ? "" : "s")
+            </span>
+
+        </div>
+
+
+        @if (!Model.Any())
+        {
+            <div class="empty-admin-state">
+
+                <i class="fas fa-book-open"></i>
+
+                <p>
+                    No readers have joined the shelves yet.
+                </p>
+
+            </div>
+        }
+        else
+        {
+
+            <div class="admin-table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>User</th>
+
+                            <th>Role</th>
+
+                            <th>Status</th>
+
+                            <th>Books</th>
+
+                            <th>Pages</th>
+
+                            <th>Streak</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    @foreach (var user in Model)
+                    {
+
+                        <tr>
+
+                            <!-- USER -->
+
+                            <td>
+
+                                <div class="user-cell">
+
+                                    <div class="user-avatar">
+
+                                        @user.Username
+                                            .Substring(
+                                                0,
+                                                1)
+                                            .ToUpper()
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            @user.Username
+                                        </strong>
+
+                                        <small>
+                                            @user.Email
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- ROLE -->
+
+                            <td>
+
+                                @if (user.Role == BookieDookie.Models.UserRole.Admin)
+                                {
+                                    <span class="role-badge admin-role">
+                                        <i class="fas fa-crown"></i>
+                                        Admin
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="role-badge user-role">
+                                        Reader
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                @if (user.Status == BookieDookie.Models.UserStatus.Active)
+                                {
+                                    <span class="status-badge active-status">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge inactive-status">
+                                        Inactive
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- BOOKS -->
+
+                            <td>
+
+                                <span class="table-number">
+                                    @user.BookCount
+                                </span>
+
+                            </td>
+
+
+                            <!-- PAGES -->
+
+                            <td>
+
+                                <span class="table-number">
+                                    @user.PagesRead
+                                </span>
+
+                            </td>
+
+
+                            <!-- STREAK -->
+
+                            <td>
+
+                                <span class="streak-value">
+
+                                    @user.ReadingStreak
+
+                                    <span>🔥</span>
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        }
+
+    </div>
+
+
+    <!-- ==========================================
+         ADMIN FOOTER PANEL
+         ========================================== -->
+
+    <div class="admin-insight-grid">
+
+
+        <div class="admin-insight-card">
+
+            <div class="insight-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+
+            <div>
+
+                <h3>Library Pulse</h3>
+
+                <p>
+                    @ViewBag.TotalBooks books are currently
+                    stored across the platform's bookshelves.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-insight-card">
+
+            <div class="insight-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+
+            <div>
+
+                <h3>Reading Pulse</h3>
+
+                <p>
+                    Readers have collectively travelled through
+                    @ViewBag.TotalPagesRead pages so far.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-insight-card">
+
+            <div class="insight-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <div>
+
+                <h3>Private by Design</h3>
+
+                <p>
+                    Reader records remain tied to their own
+                    accounts and are not exposed to other users.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -103,6 +103,13 @@ namespace BookieDookie.Controllers
                 claimsPrincipal);
 
 
+            if (user.Role == UserRole.Admin)
+            {
+                return RedirectToAction(
+                    "Index",
+                    "Admin");
+            }
+
             return RedirectToAction(
                 "Index",
                 "Home");
